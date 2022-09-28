@@ -1,0 +1,3 @@
+npx create-react-native-library aNameOfYourApp
+npm run
+npm expo start 
