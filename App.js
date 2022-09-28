@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, ScrollView, Image  } from 'react-native';
 //     ;
 // } 
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import Homepage from './src/Homepage';
+import Homepage from './src/Homepage';
 
 const App = () => {
     const myArray = [ 15, 1, 25.5, 32 ];
@@ -36,7 +36,6 @@ const App = () => {
     const findArray = myArray2.find(item => item.id === 2);
     let myObject = myArray2.find(e => e.id === 2);
 
-    // console.log(Platform.OS === 'web');
 
   return (
     // <SafeAreaView style={styles.container}>
@@ -66,29 +65,13 @@ const App = () => {
             </View>
             <View style={styles.itemContainer}>
                 <Text style={styles.nameText}>Bamm-Bamm </Text>
-                <Image source={ require('./assets/Fred.png') } style={ styles.img }/>
+                <Image source={{ uri:'https://th.bing.com/th/id/OIP.aeF5d2TX_y2BFTHjAsRdLAHaNv?pid=ImgDet&rs=1' }} style={ styles.img }/>
             </View>
-            <Text style={{
-                fontSize: 20,
-                fontWeight: 'bold',
-                color: 'green',}}>
-                    My Text is green
-            </Text>
-            {/* <Image source={{ uri:'https://th.bing.com/th/id/OIP.aeF5d2TX_y2BFTHjAsRdLAHaNv?pid=ImgDet&rs=1' }} style={ styles.img }/> */}
-        
-      {/* <Homepage/> */}   
       </ScrollView>
       </View>
     //   </SafeAreaView>
   );
 }
-
-const img250x250 = StyleSheet.create({
-    container: {
-        width: 250, 
-        height: 250,
-    }
-})
 
 const styles = StyleSheet.create({
     container: {

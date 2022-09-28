@@ -1,12 +1,8 @@
-// import { StyleSheet, Text, View, Image } from 'react-native';
+const Homepage = () => {
+    return (
+        <div>
+        </div>
+    )
+}
 
-// export default function Homepage(){
-//     return (
-//         <div>
-//             <p>Hello Homepage</p>
-//             <View></View>
-//             <Text></Text>
-//             <Image/>
-//         </div>
-//     )
-// }
+export default Homepage;
