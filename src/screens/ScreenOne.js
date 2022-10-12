@@ -1,12 +1,14 @@
 import { View, Text, Button } from 'react-native';
+import NavButton from '../components/NavButton';
+import ChildrenExample from '../components/ChildrenExample';
 
-const ScreenOne = ({navigation}) => {
+const ScreenOne = ({ navigation }) => {
     return (
         <View>
-            <Text>This is Screen One</Text>
-            <Button title='Go to Home Screen' onPress={() => {
-                navigation.navigate('Index');
-            }} />
+            <ChildrenExample title='This is Screen One'>
+                <NavButton screenName='Screen Two' navigation={navigation} />
+                <NavButton screenName='Index' navigation={navigation} />
+            </ChildrenExample>
         </View>
     )
 }

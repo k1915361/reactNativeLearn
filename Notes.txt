@@ -1,3 +1,62 @@
 npx create-react-native-library anAppName
 npm run
 npm expo start 
+
+
+        Assignment Notes
+Assignment expects to use the lots of properties of the modules such as TextInput
+for email input, the autocomplete is desirable.
+some features is compatible between android and ios.
+IMPORTANT! Must be IOS and ANDROID compatible.
+Number should be integer value.
+team vs team
+4 players per team, or any number of players. array of players.
+depending on the compatition, number of ends is variable.
+4 vs 4 = ? number of ends.
+3 vs 3 = less number of ends.
+design is completely up to me.
+select the end number, select the score, then return to homescreen, view players.
+be creative with the design.
+making it digital may allow for more information recording.
+option to take a picture that is assigned to a particular end.
+for the old generation, appropriate easy-to-use design.
+only javascript, no typescript.
+react and react native only.
+don't use create react app CLI, only expo CLI.
+expo CLI will say 'this component is depreciated. please use ooo instead.'.
+react navigation.
+async storage.
+submissions with unauthorised libraries. email and justify reason if want to use third party libraries.
+not allowed: generated codes, frameworks, other tools.
+MUST
+1. user create new card
+ - name
+ - date
+ - rink number
+ - team names
+ - team number (?)
+2. user can add the shots for each end to a team.
+ - the running total should be calculated and presented.
+SHOULD
+3. user experience and interface should be designed (no tiny little boxes, bigger boxes, button, easy to use, no tech savvy)
+COULD
+4. use Reducer and the context hooks, to manage data across the application.
+ - implement a persisten storage system either locally or externally.
+5. over 4. user should see array of cards, 
+ - uniform results (e.g. scroll through page), 
+ - edit previously played cards and the result, 
+ - remove previously played card. 
+ 6. take picture with camera hardware
+  - retrievable later when reopening the app.
+Quality of code.
+ - no inline styling.
+ - user experience (specifically mobile, old generation, obvious, easy to use)
+ - independent research done beyond the taught material
+ - the requirement operates in a bug-free fashion. 
+Viva
+ - will be asked about the code for the ownership of the code multiplier either 1, 0.6, and so on. e.g. 100% * 0.6 = 60%
+Only zip file as submission.
+node-modules is not required (size is too big).
+save the image url, not the image it self.
+saving feature will require independent research.
+24th

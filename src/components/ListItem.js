@@ -1,12 +1,10 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View,Text, Image } from "react-native";
 
-const ListItem = () => {
-    const assetsDir = '../../assets/';
-    
+const ListItem = ({image, name}) => {    
     return (
         <View style={styles.itemContainer} >
-            <Text style={styles.nameText}>Fred </Text>
-            <Image source={ require(`${assetsDir}Fred.png`) } style={ styles.img }/>
+            <Text style={styles.nameText}>{name} </Text>
+            <Image source={ image } style={styles.img}/>
         </View>
     )
 }

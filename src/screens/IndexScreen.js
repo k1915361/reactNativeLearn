@@ -1,6 +1,9 @@
-import { StyleSheet, Text, View, ScrollView, Image  } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, StatusBar  } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ListItem from '../components/ListItem';
+import NavButton from '../components/NavButton';
 
-const IndexScreen = () => {
+const IndexScreen = ({ navigation }) => {
     const assetsDir = '../../assets/';
 
     const myArray = [ 15, 1, 25.5, 32 ];
@@ -32,41 +35,19 @@ const IndexScreen = () => {
     let myObject = myArray2.find(e => e.id === 2);
 
     return (
-    // <SafeAreaView style={styles.container}>
-    <View style={styles.container}>
-    <StatusBar  />
-    <ScrollView horizontal={false}>
-        <View style={styles.heading}>Flintstones and Rubbles</View> 
-        <Button title='Go to Screen One' onPress={() => {
-                navigation.navigate('S1');
-        }}/>
-        <View style={styles.itemContainer} >
-            <Text style={styles.nameText}>Fred </Text>
-            <Image source={ require(`${assetsDir}Fred.png`) } style={ styles.img }/>
-        </View>
-        <View style={styles.itemContainer}>
-            <Text style={styles.nameText}>Wilma </Text>
-            <Image source={ require(`${assetsDir}Fred.png`) } style={ styles.img }/>
-        </View>
-        <View style={styles.itemContainer}>
-            <Text style={styles.nameText}>Pebbles </Text>
-            <Image source={ require(`${assetsDir}Fred.png`) } style={ styles.img }/>
-        </View>
-        <View style={styles.itemContainer}>
-            <Text style={styles.nameText}>Barney </Text>
-            <Image source={ require(`${assetsDir}Fred.png`) } style={ styles.img }/>
-        </View>
-        <View style={styles.itemContainer}>
-            <Text style={styles.nameText}>Bettie </Text>
-            <Image source={ require(`${assetsDir}Fred.png`) } style={ styles.img }/>
-        </View>
-        <View style={styles.itemContainer}>
-            <Text style={styles.nameText}>Bamm-Bamm </Text>
-            <Image source={{ uri:'https://th.bing.com/th/id/OIP.aeF5d2TX_y2BFTHjAsRdLAHaNv?pid=ImgDet&rs=1' }} style={ styles.img }/>
-        </View>
-    </ScrollView>
-    </View>
-    //   </SafeAreaView>
+    <SafeAreaView style={styles.container}>
+        <StatusBar />
+        <ScrollView horizontal={false}>
+            <ListItem name="Fred" image={require('../../assets/Fred.png')}/>
+            <ListItem name="Wilma" image={require('../../assets/Fred.png')}/>
+            <ListItem name="Pebbles" image={require('../../assets/Fred.png')}/>
+            <ListItem name="Barney" image={require('../../assets/Fred.png')}/>
+            <ListItem name="Bettie" image={require('../../assets/Fred.png')}/>
+            <ListItem name="Bamm-Bamm" image={require('../../assets/Fred.png')}/>
+            <View style={styles.heading}>Flintstones and Rubbles</View> 
+            <NavButton screenName='Screen One' navigation={navigation} />
+        </ScrollView>
+    </SafeAreaView>
     )
 }    
 
