@@ -2,32 +2,10 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
-const ListViewScreen = ({navigation}) => {
-    const [items, setItems] = useState(dummyCard1);
-    const [cards, setCards] = useState(dummyCards);
-    const [clubName,setClubName] = useState('');
-    const [date, setDate] = useState('');
-    const [competition, setCompetition] = useState('');
-    const [rinkNo, setRinkNo] = useState('');
-    const [teams, setTeams] = useState('');
-    const [players, setPlayers] = useState('');
-    const [shots, setShots] = useState(0);
-    const [total, setTotal] = useState(0);
-
+const ListCardScreen = ({navigation}) => {
+    const [cards, setCards] = useState(dummyData);
+    
     const addNewItem = (title, content) => {
-        setItems([
-            ...items,
-            {
-                id: Math.floor(Math.random() * 99999),
-                title: title,
-                content: content,
-                date: new Date()
-            }
-        ]);
-    }
-
-    const addNewCard = (card) => {
-        const {competitionName, date, rinkNo, teamNames, players } = card; 
         setCards([
             ...cards,
             {
@@ -39,23 +17,13 @@ const ListViewScreen = ({navigation}) => {
                 players: players,
                 date: new Date(),
             }
-        ])
-    }
-
-    useEffect(() => {
-        navigation.setOptions({
-            headerRight: () => 
-                <Pressable onPress={() => navigation.navigate('AddItem', {callback: addNewItem})} >
-                    <Text> Add Item
-                        <MaterialIcons name='add' size={24} color='black' />
-                    </Text>
-                </Pressable>                
-        })
-    }, [items]);
+        ]);
+    };
+    // competition name, date, rink number, team names and player names
 
     navigation.setOptions({
         headerLeft: ()=> 
-            <Pressable onPress={() => navigation.navigate('AddCard', {callback: addNewCard})} >
+            <Pressable onPress={() => navigation.navigate('AddCard', {callback: addNewItem})} >
                 <Text> Add Card
                     <MaterialIcons name='add' size={24} color='black' />
                 </Text>
@@ -65,7 +33,7 @@ const ListViewScreen = ({navigation}) => {
     return (
         <View>
             <FlatList
-                data={items}
+                data={cards}
                 keyExtractor={(e) => e.id.toString()}
                 renderItem={({item}) => {
                     return(
@@ -119,7 +87,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const dummyCard1 = [
+const dummyData = [
     {
         id: -1,
         title: 'This is my first item',
@@ -131,10 +99,6 @@ const dummyCard1 = [
         content: '... content ...',
         date: new Date()
     }
-];
+]
 
-const dummyCards = [
-    dummyCard1
-];
-
-export default ListViewScreen;
+export default ListCardScreen;

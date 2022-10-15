@@ -9,13 +9,13 @@ const AddItemScreen = ({navigation, route}) => {
 
     return (
         <View>
-            <Text style={styles.textLabel}>Enter your name:</Text>
+            <Text style={styles.textLabel}>Enter your title:</Text>
             <TextInput style={styles.textInput}
                 placeholder='Type title here' value={title}
                 onChangeText={(text) => { setTitle(text); }}
             />
             <Text style={styles.textLabel}>Enter your content:</Text>
-            <TextInput> style={styles.textInput} multiline
+            <TextInput style={styles.textInput}  
                 placeholder="Type content here" value={content}
                 onChangeText={(text) => {
                     setContent(text);
@@ -28,6 +28,7 @@ const AddItemScreen = ({navigation, route}) => {
                 keyboardType='email-address'
                 maxLength={100}
                 onFocus={() => {/* e.g. chnage styling */}}
+            >
             </TextInput>     
             <Button title='Submit Item' onPress={() => {
                 callback(title, content);
@@ -39,12 +40,12 @@ const AddItemScreen = ({navigation, route}) => {
 }
 
 const styles = StyleSheet.create({
-    textLabel:{
-        color:'black'
+    textLabel: {
+        padding: 0,
     },
-    textInput:{
-        color:'black'
-    },
+    textInput: {
+        padding: 0,
+    }
 });
 
 export default AddItemScreen;

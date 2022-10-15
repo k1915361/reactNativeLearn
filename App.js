@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AddCardScreen from './src/AddCardScreen';
 import AddItemScreen from './src/AddItemScreen';
 import IndexScreen from './src/screens/IndexScreen';
 import ListViewScreen from './src/screens/ListViewScreen';
@@ -24,9 +25,14 @@ const App = () => {
                 options={{ title: 'View item' }}
             />
             <Stack.Screen 
-                name="Add"
+                name="AddItem"
                 component={AddItemScreen}
                 options={{ title: 'Add item' }}
+            />
+            <Stack.Screen 
+                name="AddCard"
+                component={AddCardScreen}
+                options={{ title: 'Add card' }}
             />
             <Stack.Screen 
                 name="Index"
