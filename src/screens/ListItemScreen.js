@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
+import { StyleSheet, View, Text, FlatList, Pressable, Button } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import ListPlayerScreen from './ListPlayerScreen';
 
 const ListViewScreen = ({navigation, route}) => {
-    const [items, setItems] = useState(dummyCard1);
-    const {competitionName, rinkNumber, teamNames, players, date: cardDate } = route.params;
+    const {competitionName, rinkNumber, teamNames, players: playerss, items: itemss, date: cardDate } = route.params;
+    const [items, setItems] = useState(itemss);
+    const [players, setPlayers] = useState(playerss);
     // const [clubName,setClubName] = useState('');
     // const [date, setDate] = useState('');
     // const [competition, setCompetition] = useState('');
@@ -26,11 +28,22 @@ const ListViewScreen = ({navigation, route}) => {
         ]);
     }
 
+    const addNewPlayer = (firstName, lastName) => {
+        setPlayers([
+            ...players,
+            {
+                id: Math.floor(Math.random() * 99999),
+                firstName: firstName, 
+                lastName: lastName, 
+            }
+        ]);
+    };
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => 
                 <Pressable onPress={() => navigation.navigate('AddItem', {callback: addNewItem})} >
-                    <Text> Add Item
+                    <Text style={styles.addItemText}> Add Item
                         <MaterialIcons name='add' size={24} color='black' />
                     </Text>
                 </Pressable>                
@@ -39,8 +52,11 @@ const ListViewScreen = ({navigation, route}) => {
 
     navigation.setOptions({
         headerLeft: ()=> 
-            <Pressable onPress={() => navigation.navigate('ListCard', {callback: null})} >
-                <Text> View all Cards 
+            <Pressable onPress={() => navigation.navigate('ListCard', {callback: null})} 
+                style={styles.viewAllCardsButton} >
+                <Text style={styles.viewAllCardsText}> 
+                    <MaterialIcons name='arrow-back' size={24} color='black' /> 
+                    go back 
                 </Text>
             </Pressable>
     });
@@ -49,7 +65,13 @@ const ListViewScreen = ({navigation, route}) => {
         <View>
             <Text style={''}>{competitionName}</Text>
             <Text style={''}>{rinkNumber}</Text>
-            <Text style={''}>{cardDate}</Text>
+            <Text style={''}>Players:</Text>  
+            <ListPlayerScreen 
+                navigation={navigation}
+                players={players} 
+                addNewPlayer={addNewPlayer}
+            />
+            <Text style={''}>Items:</Text>  
             <FlatList
                 data={items}
                 keyExtractor={(e) => e.id.toString()}
@@ -102,6 +124,23 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         flex: 1,
         alignSelf: 'flex-start',
+    },
+    button: {
+        backgroundColor: '#3399ff',
+        borderRadius: 5,
+    },
+    viewAllCardsButton: {},
+    font16Bold: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    viewAllCardsText: {
+        fontsize: 1,
+        fontweight: 1,
+    },
+    addItemText: {
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 

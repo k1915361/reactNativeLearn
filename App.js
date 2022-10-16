@@ -2,11 +2,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AddCardScreen from './src/screens/AddCardScreen';
 import AddItemScreen from './src/screens/AddItemScreen';
-import IndexScreen from './src/screens/IndexScreen';
+import AddPlayerScreen from './src/screens/AddPlayerScreen';
 import ListCardScreen from './src/screens/ListCardScreen';
 import ListItemScreen from './src/screens/ListItemScreen';
-import ScreenOne from './src/screens/ScreenOne';
-import ScreenTwo from './src/screens/ScreenTwo';
+import ListPlayerScreen from './src/screens/ListPlayerScreen';
 import ViewItemScreen from './src/screens/ViewItemScreen';
 
 const Stack = createNativeStackNavigator();
@@ -18,42 +17,37 @@ const App = () => {
             <Stack.Screen 
                 name="ListCard"
                 component={ListCardScreen}
-                options={{ title: 'View all cards' }}
+                options={{ title: 'My Cards' }}
             />
             <Stack.Screen 
                 name="ListItem"
                 component={ListItemScreen}
-                options={{ title: 'View all items' }}
+                options={{ title: 'My Card' }}
             />
             <Stack.Screen 
                 name="ViewItem"
                 component={ViewItemScreen}
-                options={{ title: 'View item' }}
+                options={{ title: 'My Item' }}
             />
             <Stack.Screen 
                 name="AddItem"
                 component={AddItemScreen}
-                options={{ title: 'Add item' }}
+                options={{ title: 'Add Item' }}
             />
             <Stack.Screen 
                 name="AddCard"
                 component={AddCardScreen}
-                options={{ title: 'Add card' }}
+                options={{ title: 'Add Card' }}
             />
             <Stack.Screen 
-                name="Index"
-                component={IndexScreen}
-                options={{ title: 'reactNativeLearning' }}
+                name="ListPlayer"
+                component={ListPlayerScreen}
+                options={{ title: 'Players' }}
             />
             <Stack.Screen 
-                name="ScreenOne"
-                component={ScreenOne}
-                options={{ title: 'Screen One' }}
-            />
-            <Stack.Screen 
-                name="ScreenTwo"
-                component={ScreenTwo}
-                options={{ title: 'Screen Two' }}
+                name="AddPlayer"
+                component={AddPlayerScreen}
+                options={{ title: 'Add Player' }}
             />
         </Stack.Navigator>
     </NavigationContainer>

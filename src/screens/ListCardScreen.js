@@ -22,9 +22,10 @@ const ListCardScreen = ({navigation}) => {
 
     useEffect(() => {
         navigation.setOptions({
-            headerLeft: ()=> 
-                <Pressable onPress={() => navigation.navigate('AddCard', {callback: addNewCard})} >
-                    <Text> Add Card
+            headerRight: ()=> 
+                <Pressable onPress={() => navigation.navigate('AddCard', {callback: addNewCard})} 
+                    style={styles.viewAllCardsButton}>
+                    <Text style={styles.viewAllCardsText}> Add Card 
                         <MaterialIcons name='add' size={24} color='black' />
                     </Text>
                 </Pressable>
@@ -70,6 +71,34 @@ const ListCardScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginInTop: 59,
+    },
+    heading: {
+        fontSize: 30,
+        fontWeight: 30,
+        color: 'green'
+    },
+    nameText: {
+        fontSize: 20,
+        color: 'blue',
+        marginTop: 10
+    },
+    img: {
+        width: 250,
+        height: 250
+    },
+    itemContainer: {
+        borderWidth: 1,
+        borderColor: 'grey',
+        borderRadius: 4,
+        padding: 5,
+      marginVertical: 5,
+    },
     itemContainer: {
         marginTop: 15,
         padding: 15,
@@ -92,7 +121,41 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'flex-start',
     },
+    button: {
+        backgroundColor: '#3399ff',
+        borderRadius: 5,
+    },
+    viewAllCardsButton: {},
+    viewAllCardsText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 });
+
+const dummyPlayers1 = [
+    {
+        id: -1,
+        firstName: 'Ace', 
+        lastName: 'Ary', 
+    }, 
+    {
+        id: -2,
+        firstName: 'Bob', 
+        lastName: 'Boris', 
+    }, 
+];
+const dummyPlayers2 = [
+    {
+        id: -1,
+        firstName: 'Cacey', 
+        lastName: 'Carly', 
+    }, 
+    {
+        id: -2,
+        firstName: 'Drake', 
+        lastName: 'Drone', 
+    }, 
+];
 
 const dummyCard1 = [
     {
@@ -111,11 +174,11 @@ const dummyCard1 = [
 const dummyCards = [
     {
         id: -1,
-        competitionName: 'my competition',
-        rinkNumber: 'my rinkNumber',
+        competitionName: 'competition ABC',
+        rinkNumber: 1,
         teamNames: {},
-        players: {},        
-        items: {},
+        players: dummyPlayers1,        
+        items: dummyCard1,
         date: new Date()
     }
 ];
