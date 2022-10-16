@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
-const ListViewScreen = ({navigation}) => {
+const ListViewScreen = ({navigation, route}) => {
     const [items, setItems] = useState(dummyCard1);
-    const [cards, setCards] = useState(dummyCards);
-    const [clubName,setClubName] = useState('');
-    const [date, setDate] = useState('');
-    const [competition, setCompetition] = useState('');
-    const [rinkNo, setRinkNo] = useState('');
-    const [teams, setTeams] = useState('');
-    const [players, setPlayers] = useState('');
-    const [shots, setShots] = useState(0);
-    const [total, setTotal] = useState(0);
+    const {competitionName, rinkNumber, teamNames, players, date: cardDate } = route.params;
+    // const [clubName,setClubName] = useState('');
+    // const [date, setDate] = useState('');
+    // const [competition, setCompetition] = useState('');
+    // const [rinkNumber, setRinkNumber] = useState('');
+    // const [teams, setTeams] = useState('');
+    // const [players, setPlayers] = useState('');
+    // const [shots, setShots] = useState(0);
+    // const [total, setTotal] = useState(0);
 
     const addNewItem = (title, content) => {
         setItems([
@@ -24,22 +24,6 @@ const ListViewScreen = ({navigation}) => {
                 date: new Date()
             }
         ]);
-    }
-
-    const addNewCard = (card) => {
-        const {competitionName, date, rinkNo, teamNames, players } = card; 
-        setCards([
-            ...cards,
-            {
-                id: Math.floor(Math.random() * 99999),
-                competitionName: competitionName,
-                date: date,
-                rinkNo: rinkNo,
-                teamNames: teamNames,
-                players: players,
-                date: new Date(),
-            }
-        ])
     }
 
     useEffect(() => {
@@ -55,21 +39,23 @@ const ListViewScreen = ({navigation}) => {
 
     navigation.setOptions({
         headerLeft: ()=> 
-            <Pressable onPress={() => navigation.navigate('AddCard', {callback: addNewCard})} >
-                <Text> Add Card
-                    <MaterialIcons name='add' size={24} color='black' />
+            <Pressable onPress={() => navigation.navigate('ListCard', {callback: null})} >
+                <Text> View all Cards 
                 </Text>
             </Pressable>
     });
 
     return (
         <View>
+            <Text style={''}>{competitionName}</Text>
+            <Text style={''}>{rinkNumber}</Text>
+            <Text style={''}>{cardDate}</Text>
             <FlatList
                 data={items}
                 keyExtractor={(e) => e.id.toString()}
                 renderItem={({item}) => {
                     return(
-                        <Pressable onPress={() => navigation.navigate('View', {
+                        <Pressable onPress={() => navigation.navigate('ViewItem', {
                             id: item.id,
                             title: item.title,
                             content: item.content,
@@ -122,19 +108,15 @@ const styles = StyleSheet.create({
 const dummyCard1 = [
     {
         id: -1,
-        title: 'This is my first item',
-        content: '... content ...',
+        title: 'my first item',
+        content: 'my content ...',
         date: new Date()
     }, {
         id: -2,
-        title: 'This is my second item',
+        title: 'my second item',
         content: '... content ...',
         date: new Date()
     }
-];
-
-const dummyCards = [
-    dummyCard1
 ];
 
 export default ListViewScreen;
