@@ -7,6 +7,7 @@ const ListViewScreen = ({navigation, route}) => {
     const {competitionName, rinkNumber, teamNames, players: playerss, items: itemss, date: cardDate } = route.params;
     const [items, setItems] = useState(itemss);
     const [players, setPlayers] = useState(playerss);
+    const [total, setTotal] = useState(0);
     // const [clubName,setClubName] = useState('');
     // const [date, setDate] = useState('');
     // const [competition, setCompetition] = useState('');
@@ -26,6 +27,7 @@ const ListViewScreen = ({navigation, route}) => {
                 date: new Date()
             }
         ]);
+        updateTotal();
     }
 
     const addNewPlayer = (firstName, lastName) => {
@@ -61,6 +63,12 @@ const ListViewScreen = ({navigation, route}) => {
                 </Text>
             </Pressable>
     });
+
+    const updateTotal = () => {
+        const total = 0;
+        items.foreach((item) => {total += item.shot});
+        setTotal(total);
+    }
 
     return (
         <View>

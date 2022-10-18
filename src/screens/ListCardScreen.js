@@ -1,11 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { actionTypes } from "../helpers/actionTypes";
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case actionTypes.create:
+            return [
+                ...state,
+                {
+                    id: Math.floor(Math.random() * 99999),
+                    competitionName: action.payload.competitionName,
+                    rinkNumber: action.payload.rinkNumber,
+                    teamNames: action.payload.teamNames,
+                    players: action.payload.players,
+                    date: new Date(),
+                }
+            ];
+        case actionTypes.update:
+            return state.map((item) => {
+                if (item.id === action.payload.id){
+                    return action.payload;
+                } else { 
+                    return item 
+                }
+            });
+        case actionTypes.delete:
+            return state.filter((item) => item.id != action.payload.id);
+        default: 
+            return state;
+    }
+};
 
 const ListCardScreen = ({navigation}) => {
     const [cards, setCards] = useState([]);
-    
+    const [state, dispatch] = useReducer(reducer, dummyCards);
+
     const addNewCardDummy = (card) => {
         const {competitionName, rinkNumber, teamNames, players } = card; 
         setCards([
@@ -23,7 +54,6 @@ const ListCardScreen = ({navigation}) => {
 
     const addNewCard = async (card) => {
         try {     
-            const cards = await getCards();
             const {competitionName, rinkNumber, teamNames, players } = card; 
             const newCard = {
                 id: Math.floor(Math.random() * 99999),
@@ -37,7 +67,6 @@ const ListCardScreen = ({navigation}) => {
             cards == null ? updated = [newCard] : (updated = [...cards, newCard]);  
             let value = JSON.stringify(updated);
             await AsyncStorage.setItem('@cards', value);
-            mountCards();
         } catch (e) {
             alert(e);
         }
@@ -78,26 +107,29 @@ const ListCardScreen = ({navigation}) => {
         }
     }
 
-    useEffect(() => {
-        mountCards();
-    }, []);
+    // useEffect(() => {
+    //     mountCards();
+    // }, []);
       
     useEffect(() => {
         navigation.setOptions({
             headerRight: ()=> 
-                <Pressable onPress={() => navigation.navigate('AddCard', {callback: addNewCard})} 
+                <Pressable onPress={() => navigation.navigate('AddCard', 
+                    {callback: (payload) => 
+                        dispatch({type: actionTypes.create, payload: payload
+                    })})} 
                     style={styles.viewAllCardsButton}>
                     <Text style={styles.viewAllCardsText}> Add Card 
                         <MaterialIcons name='add' size={24} color='black' />
                     </Text>
                 </Pressable>
         });
-    }, [cards]);
+    }, [state]);
 
     return (
         <View>
             <FlatList
-                data={cards}
+                data={state} 
                 keyExtractor={(e) => e.id}
                 renderItem={({item}) => {
                     return(
