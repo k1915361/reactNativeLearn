@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListCardScreen = ({navigation}) => {
-    const [cards, setCards] = useState(dummyCards);
+    const [cards, setCards] = useState([]);
     
-    const addNewCard = (card) => {
+    const addNewCardDummy = (card) => {
         const {competitionName, rinkNumber, teamNames, players } = card; 
         setCards([
             ...cards,
@@ -20,6 +21,67 @@ const ListCardScreen = ({navigation}) => {
         ])
     }
 
+    const addNewCard = async (card) => {
+        try {     
+            const cards = await getCards();
+            const {competitionName, rinkNumber, teamNames, players } = card; 
+            const newCard = {
+                id: Math.floor(Math.random() * 99999),
+                competitionName: competitionName,
+                rinkNumber: rinkNumber,
+                teamNames: teamNames,
+                players: players,
+                date: new Date(),
+            }
+            let updated = [];
+            cards == null ? updated = [newCard] : (updated = [...cards, newCard]);  
+            let value = JSON.stringify(updated);
+            await AsyncStorage.setItem('@cards', value);
+            mountCards();
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+    const clearCards = async () => {
+        await AsyncStorage.clear();
+    };
+
+    const mountCards = async () => {
+        try {
+            const cards = await AsyncStorage.getItem(`@cards`);
+            setCards(JSON.parse(cards));
+        } catch(e) {
+          alert(e);
+        }
+    }
+
+    const getCards = async () => {
+        try {
+          const jsonValue = await AsyncStorage.getItem(`@cards`);
+          return jsonValue != null ? JSON.parse(jsonValue) : null;
+        } catch(e) {
+          alert(e);
+        }
+    }
+    
+    const removeCard = async (id) => {
+        try {
+          const cards = await AsyncStorage.getItem(`@cards`);
+          cards.forEach((obj) => {
+            delete obj.a
+          });
+          alert(cards);
+          await AsyncStorage.setItem(`@cards`, cards);
+        } catch(e) {
+          alert(e);
+        }
+    }
+
+    useEffect(() => {
+        mountCards();
+    }, []);
+      
     useEffect(() => {
         navigation.setOptions({
             headerRight: ()=> 
@@ -32,12 +94,11 @@ const ListCardScreen = ({navigation}) => {
         });
     }, [cards]);
 
-
     return (
         <View>
             <FlatList
                 data={cards}
-                keyExtractor={(e) => e.id.toString()}
+                keyExtractor={(e) => e.id}
                 renderItem={({item}) => {
                     return(
                         <Pressable onPress={() => navigation.navigate('ListItem', {
@@ -47,15 +108,15 @@ const ListCardScreen = ({navigation}) => {
                             teamNames: item.teamNames,
                             players: item.players,
                             items: item.items,
-                            date: item.date.toUTCString()
+                            date: new Date(item.date).toUTCString()
                         })}>
                             <View style={styles.itemContainer}>
                                 <View style={styles.dateContainer}>
                                     <Text style={styles.dateText}>
-                                        {item.date.toLocaleDateString()}
+                                        {new Date(item.date).toLocaleDateString()}
                                     </Text>
                                     <Text >
-                                        {item.date.toLocaleTimeString()}
+                                        {new Date(item.date).toLocaleTimeString()}
                                     </Text>
                                 </View>
                                 <Text style={styles.titleText}>

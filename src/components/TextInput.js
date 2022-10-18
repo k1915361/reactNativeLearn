@@ -1,11 +1,12 @@
 import { StyleSheet, Text, TextInput as TextInputt, View } from "react-native";
 
-const TextInput = ({ onChangeText, title, value}) => {    
+const TextInput = ({ onChangeText, title, value, style}) => {    
     return (
         <View>
-            <Text style={styles.textLabel}>Enter your {title}:</Text>
+            <Text style={styles.textLabel}>{title}:</Text>
             <TextInputt style={styles.textInput}
-                placeholder={`Type ${title} here`} value={value}
+                // placeholder={`Type ${title} here`} 
+                value={value}
                 onChangeText={(text) => { onChangeText(text); }}
             />
         </View>
@@ -13,8 +14,14 @@ const TextInput = ({ onChangeText, title, value}) => {
 }
 
 const styles = StyleSheet.create({
-    textLabel: {
-        padding: 0,
+    textInput: {
+        borderColor: 'black',
+        borderWidth: 0.1,
+        padding: 5,
+        marginBottom: 5,
+        height: 20,
+        borderRadius: 3,
+        width: '50%',
     },
 });
 

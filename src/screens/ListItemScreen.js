@@ -29,6 +29,7 @@ const ListViewScreen = ({navigation, route}) => {
     }
 
     const addNewPlayer = (firstName, lastName) => {
+        console.log(firstName, lastName)
         setPlayers([
             ...players,
             {
@@ -63,13 +64,13 @@ const ListViewScreen = ({navigation, route}) => {
 
     return (
         <View>
-            <Text style={''}>{competitionName}</Text>
-            <Text style={''}>{rinkNumber}</Text>
+            <Text style={''}>Competition Name: {competitionName}</Text>
+            <Text style={''}>Rink No: {rinkNumber}</Text>
             <Text style={''}>Players:</Text>  
             <ListPlayerScreen 
                 navigation={navigation}
                 players={players} 
-                addNewPlayer={addNewPlayer}
+                addNewPlayer={(firstname, lastname) => addNewPlayer(firstname, lastname)}
             />
             <Text style={''}>Items:</Text>  
             <FlatList
@@ -143,19 +144,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-
-const dummyCard1 = [
-    {
-        id: -1,
-        title: 'my first item',
-        content: 'my content ...',
-        date: new Date()
-    }, {
-        id: -2,
-        title: 'my second item',
-        content: '... content ...',
-        date: new Date()
-    }
-];
 
 export default ListViewScreen;

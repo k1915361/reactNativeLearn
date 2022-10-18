@@ -3,16 +3,17 @@ import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import AddPlayerScreen from "./AddPlayerScreen";
 
-const ListPlayerScreen = ({navigation, route, players: playerss, addNewPlayer}) => {
+const ListPlayerScreen = ({navigation, route, players, addNewPlayer}) => {
     // const {players:playerss} = route.params; 
-    const [players, setPlayers] = useState(playerss);
+    // const [players, setPlayers] = useState(playerss);
 
     return (
         <View>
-            <Pressable onPress={() => navigation.navigate('AddPlayer', {addNewPlayer})}>
+            <Pressable onPress={() => navigation.navigate('AddPlayer', {callback: addNewPlayer})}>
                 <Text style={styles.font16Bold}>
                     <MaterialIcons name='add' size={24} color='black' />
-                    Add Player</Text>  
+                    Add Player
+                </Text>  
             </Pressable>
             {/* <AddPlayerScreen 
                 navigation={navigation}
@@ -24,11 +25,11 @@ const ListPlayerScreen = ({navigation, route, players: playerss, addNewPlayer}) 
                 renderItem={({item}) => {
                     return(
                         <Pressable 
-                        //     onPress={() => navigation.navigate('ViewPlayer', {
-                        //     id: item.id,                
-                        //     firstName: firstName, 
-                        //     lastName: lastName, 
-                        // })}
+                            /*onPress={() => navigation.navigate('ViewPlayer', {
+                            id: item.id,                
+                            firstName: firstName, 
+                            lastName: lastName, 
+                        })}*/
                         >
                             <View style={styles.itemContainer}>
                                 <View style={styles.dateContainer}>

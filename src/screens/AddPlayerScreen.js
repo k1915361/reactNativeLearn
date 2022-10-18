@@ -28,7 +28,8 @@ const AddPlayerScreen = ({navigation, route}) => {
                 maxLength={100}
                 onFocus={() => {/* e.g. chnage styling */}}
             >
-            </TextInput>     
+            </TextInput> 
+            <Text>{JSON.stringify()}{firstName} {lastName}</Text>    
             <Button title='Submit Item' onPress={() => {
                 callback(firstName, lastName);
                 navigation.pop();
