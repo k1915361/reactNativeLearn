@@ -2,6 +2,12 @@ npx create-react-native-library anAppName
 npm run
 npm expo start 
 
+npm expo install    (e.g. @react-native-async-storage/async-storage)
+- try using "npm expo" instead of just "npm". this will install additional things for expo.
+
+when to use asyncstorage "save"
+- when exiting an app, save the data state first then exit the app.
+- in my case. whenver a change is made the data is saved 
 
         Assignment
 Requirement Description of requirement Priority

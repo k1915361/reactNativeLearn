@@ -4,55 +4,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { actionTypes } from "../helpers/actionTypes";
 
-const reducer = (state, action) => {
-    switch (action.type) {
-        case actionTypes.create:
-            return [
-                ...state,
-                {
-                    id: Math.floor(Math.random() * 99999),
-                    competitionName: action.payload.competitionName,
-                    rinkNumber: action.payload.rinkNumber,
-                    teamNames: action.payload.teamNames,
-                    players: action.payload.players,
-                    date: new Date(),
-                }
-            ];
-        case actionTypes.update:
-            return state.map((item) => {
-                if (item.id === action.payload.id){
-                    return action.payload;
-                } else { 
-                    return item 
-                }
-            });
-        case actionTypes.delete:
-            return state.filter((item) => item.id != action.payload.id);
-        default: 
-            return state;
-    }
-};
-
 const ListCardScreen = ({navigation}) => {
     const [cards, setCards] = useState([]);
-    const [state, dispatch] = useReducer(reducer, dummyCards);
+    // const [state, dispatch] = useReducer(reducer, dummyCards);
 
-    const addNewCardDummy = (card) => {
-        const {competitionName, rinkNumber, teamNames, players } = card; 
-        setCards([
-            ...cards,
-            {
-                id: Math.floor(Math.random() * 99999),
-                competitionName: competitionName,
-                rinkNumber: rinkNumber,
-                teamNames: teamNames,
-                players: players,
-                date: new Date(),
-            }
-        ])
-    }
-
-    const addNewCard = async (card) => {
+    const saveAppState = async () => {
         try {     
             const {competitionName, rinkNumber, teamNames, players } = card; 
             const newCard = {
@@ -70,6 +26,21 @@ const ListCardScreen = ({navigation}) => {
         } catch (e) {
             alert(e);
         }
+    }
+
+    const addNewCardDummy = (card) => {
+        const {competitionName, rinkNumber, teamNames, players } = card; 
+        setCards([
+            ...cards,
+            {
+                id: Math.floor(Math.random() * 99999),
+                competitionName: competitionName,
+                rinkNumber: rinkNumber,
+                teamNames: teamNames,
+                players: players,
+                date: new Date(),
+            }
+        ])
     }
 
     const clearCards = async () => {
@@ -225,55 +196,6 @@ const styles = StyleSheet.create({
     },
 });
 
-const dummyPlayers1 = [
-    {
-        id: -1,
-        firstName: 'Ace', 
-        lastName: 'Ary', 
-    }, 
-    {
-        id: -2,
-        firstName: 'Bob', 
-        lastName: 'Boris', 
-    }, 
-];
-const dummyPlayers2 = [
-    {
-        id: -1,
-        firstName: 'Cacey', 
-        lastName: 'Carly', 
-    }, 
-    {
-        id: -2,
-        firstName: 'Drake', 
-        lastName: 'Drone', 
-    }, 
-];
 
-const dummyCard1 = [
-    {
-        id: -1,
-        title: 'my first item',
-        content: 'my content ...',
-        date: new Date()
-    }, {
-        id: -2,
-        title: 'my second item',
-        content: '... content ...',
-        date: new Date()
-    }
-];
-
-const dummyCards = [
-    {
-        id: -1,
-        competitionName: 'competition ABC',
-        rinkNumber: 1,
-        teamNames: {},
-        players: dummyPlayers1,        
-        items: dummyCard1,
-        date: new Date()
-    }
-];
 
 export default ListCardScreen;
