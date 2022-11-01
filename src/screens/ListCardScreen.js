@@ -2,7 +2,6 @@ import { useContext, useEffect, useReducer, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { actionTypes } from "../helpers/actionTypes";
 import ItemContext from "../contexts/ItemContext";
 
 const ListCardScreen = ({navigation}) => {
@@ -21,14 +20,13 @@ const ListCardScreen = ({navigation}) => {
         });
     }, [state]);
 
-    const handleUpdate = (id, title, shots, date) => {
-        const newState = {...state, shots};
-        update(id, title, newState, date);
+    const handleUpdate = (card) => {
+        update(card.id, card);
     }
 
     return (
         <View>
-            <Text>{JSON.stringify(state)}</Text>
+            <Text>{JSON.stringify(state)}</Text>            
             <FlatList
                 data={state} 
                 keyExtractor={(e) => e.id}
@@ -42,14 +40,15 @@ const ListCardScreen = ({navigation}) => {
                             teamB: item.teamB,
                             shots: item.shots,
                             date: new Date(item.date).toUTCString(),
-                            handleUpdate: (id, title, content, date) => handleUpdate(id, title, content, date),
+                            handleUpdate: (id, title, content, date) => 
+                                handleUpdate(id, title, content, date),
                         })}>
                             <View style={styles.itemContainer}>
                                 <View style={styles.dateContainer}>
                                     <Text style={styles.dateText}>
                                         {new Date(item.date).toLocaleDateString()}
                                     </Text>
-                                    <Text >
+                                    <Text>
                                         {new Date(item.date).toLocaleTimeString()}
                                     </Text>
                                 </View>
@@ -60,7 +59,7 @@ const ListCardScreen = ({navigation}) => {
                                     {item.rinkNumber}
                                 </Text>
                                 <Text style={styles.titleText}>
-                                    {item.teamA && item.teamA.name} vs {item.teamB && item.teamB.name || ''}
+                                    {item.teamA && item.teamA.name} vs {item.teamB && item.teamB.name}
                                 </Text>
                                 <Pressable
                                     onPress={() => {

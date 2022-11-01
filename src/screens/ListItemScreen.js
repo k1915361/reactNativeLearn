@@ -1,22 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, View, Text, FlatList, Pressable, Button } from "react-native";
+import React, { useContext, useState } from "react";
+import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import ItemContext  from '../contexts/ItemContext'; 
 
 const ListViewScreen = ({navigation, route}) => {
-    const { state, remove } = useContext(ItemContext);
     const { id, competitionName, rinkNumber, teamA, teamB, date, handleUpdate, shots: shotss } = route.params;
     const [shots, setShots] = useState(shotss || {});
 
-    const handleAddShot = (team, shots) => {
-        setShots({...shots, [Object.keys(shots).length+1]: {team, shots}});
-        handleUpdate(id, competitionName, shots, date);            
+    const getName = (team, player) => team?.[player]?.name;
+    
+    const getValue = (obj, key, key2) => obj?.[key]?.[key2];
+
+    const handleAddShot = (team, shot) => {
+        setShots({...shots, [Object.keys(shots).length]: {team, shot}});
+        handleUpdate({...route.params, shots});            
     }
 
+    const playerRowRenderer = (id) => <Text>
+        {getName(teamA, (`player${id}`))} {id} {getName(teamB, (`player${id}`))}
+    </Text>; 
+
     return (
-        <View>
-        {teamA && 
          <View style={styles.viewContainer}>  
+            <Text>{JSON.stringify({...route.params, shots})} </Text>
             <View style={styles.itemContainer}>
                 <Text style={styles.titleText}>Competition: {competitionName} </Text>
                 <Text style={styles.dateText}>
@@ -24,25 +30,17 @@ const ListViewScreen = ({navigation, route}) => {
                 </Text>
                 <Text style={styles.text}>
                     {teamA && teamA.name} vs {teamB && teamB.name}</Text>
-                <Text>
-                    {teamA.player1.name} 1 {teamB.player1.name}   
-                </Text>
-                <Text>
-                    {teamA.player2.name} 2 {teamB.player2.name}   
-                </Text>
-                <Text>
-                    {teamA.player3.name} 3 {teamB.player3.name}   
-                </Text>
-                <Text>
-                    {teamA.player4.name} 4 {teamB.player4.name}   
-                </Text>
+                {playerRowRenderer(1)}
+                {playerRowRenderer(2)}
+                {playerRowRenderer(3)}
+                {playerRowRenderer(4)}
                 <Text>Shots | Total | Ends | Shots | Total</Text>     
                 <Text>{Object.keys(shots).length}</Text>
                 <Text>{JSON.stringify(shots)}</Text>
                 <Pressable onPress={() => navigation.navigate('AddShot', {
                     teamAname: teamA && teamA.name,
                     teamBname: teamB && teamB.name,
-                    onChangeShot: (team, obj) => handleAddShot(team, obj),
+                    onChangeShot: (team, val) => handleAddShot(team, val),
                 })}>
                     <Text>
                         <Text>Add Shot</Text>
@@ -66,8 +64,6 @@ const ListViewScreen = ({navigation, route}) => {
                     }}
                 />
             </View>
-    </View>
-    }
     </View>
     );
 };

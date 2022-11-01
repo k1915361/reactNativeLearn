@@ -47,7 +47,7 @@ const reducer = (state, action) => {
         case actionTypes.update:
             return state.map((item) => {
                 if (item.id === action.payload.id){
-                    return action.payload;
+                    return {...action.payload.content};
                 } else { 
                     return item 
                 }
@@ -103,8 +103,8 @@ export const ItemProvider = ({children}) => {
         };
     }
 
-    const updateItem = (id, title, content, date, callback) => {
-        dispatch({ type: actionTypes.update, payload: { id, title, content, date} })
+    const updateItem = (id, content, callback) => {
+        dispatch({ type: actionTypes.update, payload: { id, content} })
         dispatch({ type: actionTypes.save })
         if (callback) callback();
     }

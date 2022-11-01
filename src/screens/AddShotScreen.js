@@ -1,9 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
-import ItemContext from "../contexts/ItemContext";
 
 const AddShotScreen = ({navigation, route}) => {
-    const {create} = useContext(ItemContext);
     const {teamAname, teamBname, onChangeShot } = route.params;
     const [shotA, setShotA] = useState(0);
     const [shotB, setShotB] = useState(0);
@@ -13,14 +11,14 @@ const AddShotScreen = ({navigation, route}) => {
             <Text style={styles.textLabel}>Enter your shot:</Text>
             <View style={styles.textInputContainer}>
                 <TextInput style={styles.textInput}
-                    placeholder='TeamA' value={shotA}
+                    placeholder={teamAname} value={shotA}
                     onChangeText={(text) => { 
                         setShotA(text); 
                         setShotB(0);
                     }}
                 />
                 <TextInput style={styles.textInput}
-                    placeholder='TeamB' value={shotB}
+                    placeholder={teamBname} value={shotB}
                     onChangeText={(text) => { 
                         setShotB(text); 
                         setShotA(0);

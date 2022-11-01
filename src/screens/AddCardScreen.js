@@ -2,15 +2,18 @@ import { useContext, useState } from "react";
 import { Button, StyleSheet, Text, View, TextInput } from "react-native";
 import ItemContext from '../contexts/ItemContext';
 
+const testCard = { competitionName: 'aComp', rinkNumber: 11, date: new Date(), teamA: { name: 'US', player1: { name: 'Eugene',},  player2: { name: 'Warren',},  player3: { name: 'Bill',},  player4: { name: 'Will',},  }, teamB: {name: 'China',player1: { name: 'Buffet',},  player2: { name: 'Gates',},  player3: { name: 'Smith',},  player4: { name: 'John',},} }
+
 const AddCardScreen = ({navigation, route}) => {
     const {create} = useContext(ItemContext);
-    const [card, setCard] = useState({competitionName: '', rinkNumber: '', date: new Date(), teamA: {players: {}}, teamB: {players: {}}});
+    const [card, setCard] = useState({ competitionName: '', rinkNumber: '', date: new Date(), teamA: { name: '', player1: { name: '',},  player2: { name: '',},  player3: { name: '',},  player4: { name: '',},  }, teamB: {name: '',player1: { name: '',},  player2: { name: '',},  player3: { name: '',},  player4: { name: '',},} });
 
     const getPlayerTextInput = (team, player) => 
         <TextInput
             placeholder={player} style={styles.textInput}
-            onChangeText={(text) => setCard({...card, [team]: {...card[team], [player]: {name: text}}})}
-    />
+            onChangeText={(text) => 
+                setCard({...card, [team]: {...card[team], 
+                    [player]: {name: text}}})}/>
 
     return (
         <View style={styles.gridRowContainer}>
@@ -55,6 +58,10 @@ const AddCardScreen = ({navigation, route}) => {
             
             <Button title='Create Card' onPress={() => {
                 create(card.competitionName, card, () => navigation.pop());
+            }} />
+            <Text> {'\n'}</Text>
+            <Button title='Create Test Card' onPress={() => {
+                create(testCard.competitionName, testCard, () => navigation.pop());
             }} />
         </View>
     )
