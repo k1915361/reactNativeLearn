@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import ItemContext from "../contexts/ItemContext";
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 const EditItemScreen = ({navigation, route}) => {
-    const {id} = route.params;
+    const {id, itemTitle, itemContent} = route.params;
     const {state, update} = useContext(ItemContext);
     const currentEntry = state.find((e) => e.id ===id);
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [title, setTitle] = useState(itemTitle);
+    const [content, setContent] = useState(itemContent);
 
     return (
         <View>
@@ -32,9 +34,9 @@ const EditItemScreen = ({navigation, route}) => {
                 onFocus={() => {/* e.g. chnage styling */}}
             >
             </TextInput>     
-            <Button title='Submit Item' onPress={() => {
+            <Button title='Save Edit' onPress={() => {
                 update(currentEntry.id, title, content, 
-                    currentEntry.date, () => navigation.pop());
+                    currentEntry.date, () => navigation.popToTop());
             }} />
         </View>
     )

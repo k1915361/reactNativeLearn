@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AddCardScreen from './src/screens/AddCardScreen';
 import ListCardScreen from './src/screens/ListCardScreen';
 import AddItemScreen from './src/screens/AddItemScreen';
+import AddShotScreen from './src/screens/AddShotScreen';
 import ListItemScreen from './src/screens/ListItemScreen';
 import ViewItemScreen from './src/screens/ViewItemScreen';
 import EditItemScreen from './src/screens/EditItemScreen';
@@ -16,16 +17,21 @@ const App = () => {
   return (
     <ItemProvider>
         <NavigationContainer >
-            <Stack.Navigator initialRouteName='ListItem' >
-                {/* <Stack.Screen 
+            <Stack.Navigator initialRouteName='ListCard' >
+                <Stack.Screen 
                     name="ListCard"
                     component={ListCardScreen}
                     options={{ title: 'My Cards' }}
-                /> */}
+                />
                 <Stack.Screen 
                     name="ListItem"
                     component={ListItemScreen}
                     options={{ title: 'My Card' }}
+                />
+                <Stack.Screen 
+                    name="AddShot"
+                    component={AddShotScreen}
+                    options={{ title: 'Add Shot' }}
                 />
                 <Stack.Screen 
                     name="ViewItem"
@@ -42,12 +48,12 @@ const App = () => {
                     component={EditItemScreen}
                     options={{ title: 'Edit Item' }}
                 />
-                {/* <Stack.Screen 
+                <Stack.Screen 
                     name="AddCard"
                     component={AddCardScreen}
                     options={{ title: 'Add Card' }}
-                /> */}
-                {/* <Stack.Screen 
+                />
+                <Stack.Screen 
                     name="ListPlayer"
                     component={ListPlayerScreen}
                     options={{ title: 'Players' }}
@@ -56,7 +62,7 @@ const App = () => {
                     name="AddPlayer"
                     component={AddPlayerScreen}
                     options={{ title: 'Add Player' }}
-                /> */}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     </ItemProvider>

@@ -17,11 +17,11 @@ const styles = StyleSheet.create({
     textInput: {
         borderColor: 'black',
         borderWidth: 0.1,
-        padding: 5,
+        padding: 0,
         marginBottom: 5,
-        height: 20,
+        // height: 20,
         borderRadius: 3,
-        width: '50%',
+        width: '100%',
     },
 });
 

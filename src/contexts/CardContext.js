@@ -29,18 +29,7 @@ const dummyPlayers2 = [
     }, 
 ];
 
-
-const initialCardState = [
-    {
-        id: -1,
-        competitionName: 'competition ABC',
-        rinkNumber: 1,
-        teamNames: {},
-        players: dummyPlayers1,        
-        items: [],
-        date: new Date()
-    }
-];
+let initialCardState = [];
 
 
 const reducer = (state, action) => {
@@ -52,8 +41,6 @@ const reducer = (state, action) => {
                     id: Math.floor(Math.random() * 99999),
                     competitionName: action.payload.competitionName,
                     rinkNumber: action.payload.rinkNumber,
-                    teamNames: action.payload.teamNames,
-                    players: action.payload.players,
                     date: new Date(),
                 }
             ];
@@ -91,9 +78,9 @@ const reducer = (state, action) => {
 
 
 
-const ItemContext = React.createContext();
+const CardContext = React.createContext();
 
-export const ItemProvider = ({children}) => {
+export const CardProvider = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialCardState);
     useEffect(() => {
         const loadStorage = async () => {
@@ -108,7 +95,7 @@ export const ItemProvider = ({children}) => {
         loadStorage();
     }, [STORAGE_KEY]);
 
-    const addItem = (title, content, callback) => {
+    const addCard = (title, content, callback) => {
         dispatch({ type: actionTypes.add, payload: { title, content }})
         dispatch({ type: actionTypes.save })
         if (callback) {
@@ -116,29 +103,29 @@ export const ItemProvider = ({children}) => {
         };
     }
 
-    const updateItem = (id, title, content, date, callback) => {
+    const updateCard = (id, title, content, date, callback) => {
         dispatch({ type: actionTypes.update, payload: { id, title, content, date} })
         dispatch({ type: actionTypes.save })
         if (callback) callback();
     }
     
-    const deleteItem = (id, callback) => {
+    const deleteCard = (id, callback) => {
         dispatch({ type: actionTypes.delete, payload: { id: id } })
         dispatch({ type: actionTypes.save })
         if (callback) callback();
     }
 
     return (
-        <ItemContext.Provider value={{
+        <CardContext.Provider value={{
             state:state,
-            create: addItem,
-            remove: deleteItem,
-            update: updateItem,
+            create: addCard,
+            remove: deleteCard,
+            update: updateCard,
         }}>
             {children}
-        </ItemContext.Provider>
+        </CardContext.Provider>
     )
     
 }
 
-export default ItemContext;
+export default CardContext;

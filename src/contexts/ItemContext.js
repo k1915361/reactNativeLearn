@@ -39,7 +39,8 @@ const reducer = (state, action) => {
                 {
                     id: Math.floor(Math.random() * 99999),
                     title: action.payload.title,
-                    content: action.payload.content,
+                    // content: action.payload.content,
+                    ...action.payload.content,
                     date: new Date()
                 }
             ];

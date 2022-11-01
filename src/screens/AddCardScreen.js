@@ -1,58 +1,60 @@
-import { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-import TextInput from '../components/TextInput'; 
+import { useContext, useState } from "react";
+import { Button, StyleSheet, Text, View, TextInput } from "react-native";
+import ItemContext from '../contexts/ItemContext';
 
 const AddCardScreen = ({navigation, route}) => {
-    const {callback} = route.params;
-    const [card, setCard] = useState({competitionName: '', rinkNumber: '', teamName: '', playerName: '', date: new Date()});
-    const [team1, setTeam1] = useState('');
-    const [team2, setTeam2] = useState('');
-    const [players1, setPlayers1] = useState([]);
-    const [players2, setPlayers2] = useState([]);
+    const {create} = useContext(ItemContext);
+    const [card, setCard] = useState({competitionName: '', rinkNumber: '', date: new Date(), teamA: {players: {}}, teamB: {players: {}}});
+
+    const getPlayerTextInput = (team, player) => 
+        <TextInput
+            placeholder={player} style={styles.textInput}
+            onChangeText={(text) => setCard({...card, [team]: {...card[team], [player]: {name: text}}})}
+    />
 
     return (
-        <View>
-            <Text>Enter your:</Text>
+        <View style={styles.gridRowContainer}>
+            <Text>Competition:</Text>
             <TextInput
-                title='Competition'
-                value={card.competitionName}
+                placeholder="type Competition" value={card.competitionName}
+                style={styles.textInput}
                 onChangeText={(text) => setCard({...card,  competitionName: text})}
             />
+            <Text>Rink No:</Text>
             <TextInput
-                title='Rink No'
-                value={card.rinkNumber}
+                placeholder="type Rink No" value={card.rinkNumber} 
+                style={styles.textInput}
                 onChangeText={(text) => setCard({...card, rinkNumber: text })}
             />
-            <Text>1st Team</Text>
-            <TextInput
-                title='Team Name'
-                value={team1}
-                onChangeText={(text) => setTeam1(text)}
-            />
-            <Text>Players</Text>
-            <TextInput
-                title='Firstname'
-                value={team1}
-                style={styles}
-                onChangeText={(text) => setTeam1(text)}
-            />
-            <TextInput
-                title='LastName'
-                value={team1}
-                onChangeText={(text) => setTeam1(text)}
-            />
-            <Text>2nd Team</Text> 
-            <TextInput
-                title='Team Name'
-                value={team2}
-                onChangeText={(text) => setTeam2(text)}
-            />
+            <View style={styles.leftPanel}>
+                <Text>Team Name</Text>
+                <TextInput
+                    placeholder="team name" style={styles.textInput}
+                    onChangeText={(text) => setCard({...card, teamA: {name: text}})}
+                />
+                <Text>Players Name</Text>
+                {getPlayerTextInput('teamA', 'player1')}
+                {getPlayerTextInput('teamA', 'player2')}
+                {getPlayerTextInput('teamA', 'player3')}
+                {getPlayerTextInput('teamA', 'player4')}
+            </View>
+            
+            <View style={styles.rightPanel}>
+                <Text></Text> 
+                <TextInput
+                    placeholder="team name" style={styles.textInput}
+                    onChangeText={(text) => setCard({...card, teamB: {name: text}})}
+                />
+                <Text></Text>
+                {getPlayerTextInput('teamB', 'player1')}
+                {getPlayerTextInput('teamB', 'player2')}
+                {getPlayerTextInput('teamB', 'player3')}
+                {getPlayerTextInput('teamB', 'player4')}
+            </View>
             <Text>{JSON.stringify(card)} </Text>
             
             <Button title='Create Card' onPress={() => {
-                setCard({...card, teamName: [team1, team2]})
-                callback(card);
-                navigation.pop();
+                create(card.competitionName, card, () => navigation.pop());
             }} />
         </View>
     )
@@ -60,11 +62,36 @@ const AddCardScreen = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
     textLabel: {
-        padding: 0,
-        paddingBottom: 10,
+        // padding: 0,
+        // paddingBottom: 10,
     },
     textLabel: {
-        width: '50%',
+    },
+    gridColumn: {
+        width: '100%',
+    },
+    gridRowContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },  
+    leftPanel: {
+        width: '45%',
+        left: 0,
+    },
+    rightPanel: {
+        width: '45%',
+        right: 0,
+    },
+    textInput: {
+        borderColor: 'black',
+        borderWidth: 1,
+        // padding: 0,
+        marginHorizontal: 1,
+        paddingHorizontal: 0,
+        // right: 1,
+        // left: 1,
+        marginBottom: -1,
+        borderRadius: 1,
     },
 });
 

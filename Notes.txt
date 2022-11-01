@@ -1,120 +1,127 @@
-npx create-react-native-library anAppName
-npm run
-npm expo start 
+npx npm commands
+    npx create-react-native-library anAppName
+    npm run
+    npm expo start 
 
-npm expo install    (e.g. @react-native-async-storage/async-storage)
-- try using "npm expo" instead of just "npm". this will install additional things for expo.
+    npm expo install    (e.g. @react-native-async-storage/async-storage)
+    - try using "npm expo" instead of just "npm". this will install additional things for expo.
+
+shortcut keys
+    ctrl alt f (beautify)
 
 when to use asyncstorage "save"
-- when exiting an app, save the data state first then exit the app.
-- in my case. whenver a change is made the data is saved 
+    - when exiting an app, save the data state first then exit the app.
+    - in my case. whenver a change is made the data is saved 
 
-        Assignment
-Requirement Description of requirement Priority
+-       Assignment
+ Requirement Description of requirement Priority:
 #1 
-• A user can create a new card by entering the following
-details: competition name, date, rink number, team names
-and player names.
-• Conditions:
-    o Number of player names can be between 1 – 4 players.
-    o Date could be done to automatically with today’s date or can be done via a Date Picker.
-MUST
-3 marks 
+    • A user can create a new card by entering the following
+    details: 
+        competition name, 
+        date, rink number, 
+        team names, and player names.
+    • Conditions:
+        o Number of player names can be between 1 – 4 players.
+        o Date could be done to automatically with today’s date or can be done via a Date Picker.
+    MUST
+    3 marks 
 
-#2
-• A user can add the shots for each end to a team, the running
-total value should be calculated and presented.
-MUST
-3 marks
-• Conditions:
-    o Shots for each end can only be applied to one team.
-e.g., if one team gets shots the other team gets zero
+#2 
+    • A user can add the shots for each end to a team, 
+        the running total value should be calculated and presented.
+    MUST
+    3 marks
+    • Conditions:
+        o Shots for each end can only be applied to one team.
+        e.g., if one team gets shots the other team gets zero
 
-#3
-• The user experience and interface should be designed and
-styled appropriately for the older generation and not tech
-savvy individuals.
-SHOULD
-1.5 marks
+#3 (1.5m)
+    • The user experience and interface should be designed and
+    styled appropriately for the older generation and not tech
+    savvy individuals.
+    SHOULD
+    1.5 marks
 
-#4
-• Implement an effective use of the Reducers and the Context
-hooks, to manage data across the application.
-• Implement a persistent storage system either locally or
-externally.
-COULD
-3 marks
+#4 (3m)
+    • Implement an effective use of the Reducers and the Context
+    hooks, to manage data across the application.
+    • Implement a persistent storage system either locally or
+    externally.
+    COULD
+    3 marks
 
-#5
-• A user should be able to view previously played cards and
-view the full results.
-• A user should be able to edit previously played cards and
-make changes to the results.
-• A user should be able to remove a previously played card.
-COULD
-3 marks
+#5 (3m)
+    • A user should be able to view previously played cards and
+    view the full results.
+    • A user should be able to edit previously played cards and
+    make changes to the results.
+    • A user should be able to remove a previously played card.
+    COULD
+    3 marks
 
-#6
-• A user, can optionally take a picture for each end using the
-camera hardware. The picture should be retrievable in
-future uses of the application.
-COULD
-1.5 marks
+#6 (1.5)
+    • A user, can optionally take a picture for each end using the
+    camera hardware. The picture should be retrievable in
+    future uses of the application.
+    COULD
+    1.5 marks
 
-        Notes
-Assignment expects to use the lots of properties of the modules such as TextInput
-for email input, the autocomplete is desirable.
-some features is compatible between android and ios.
-IMPORTANT! Must be IOS and ANDROID compatible.
-Number should be integer value.
-team vs team
-4 players per team, or any number of players. array of players.
-depending on the compatition, number of ends is variable.
-4 vs 4 = ? number of ends.
-3 vs 3 = less number of ends.
-design is completely up to me.
-select the end number, select the score, then return to homescreen, view players.
-be creative with the design.
-making it digital may allow for more information recording.
-option to take a picture that is assigned to a particular end.
-for the old generation, appropriate easy-to-use design.
-only javascript, no typescript.
-react and react native only.
-don't use create react app CLI, only expo CLI.
-expo CLI will say 'this component is depreciated. please use ooo instead.'.
-react navigation.
-async storage.
-submissions with unauthorised libraries. email and justify reason if want to use third party libraries.
-not allowed: generated codes, frameworks, other tools.
-MUST
-1. user create new card
- - name
- - date
- - rink number
- - team names
- - team number (?)
-2. user can add the shots for each end to a team.
- - the running total should be calculated and presented.
-SHOULD
-3. user experience and interface should be designed (no tiny little boxes, bigger boxes, button, easy to use, no tech savvy)
-COULD
-4. use Reducer and the context hooks, to manage data across the application.
- - implement a persisten storage system either locally or externally.
-5. over 4. user should see array of cards, 
- - uniform results (e.g. scroll through page), 
- - edit previously played cards and the result, 
- - remove previously played card. 
- 6. take picture with camera hardware
-  - retrievable later when reopening the app.
-Quality of code.
- - no inline styling.
- - user experience (specifically mobile, old generation, obvious, easy to use)
- - independent research done beyond the taught material
- - the requirement operates in a bug-free fashion. 
-Viva
- - will be asked about the code for the ownership of the code multiplier either 1, 0.6, and so on. e.g. 100% * 0.6 = 60%
-Only zip file as submission.
-node-modules is not required (size is too big).
-save the image url, not the image it self.
-saving feature will require independent research.
-24th
+-        Notes 
+    Assignment expects to use the lots of properties of the modules such as TextInput
+    for email input, the autocomplete is desirable.
+    some features is compatible between android and ios.
+    IMPORTANT! Must be IOS and ANDROID compatible.
+    Number should be integer value.
+    team vs team
+    4 players per team, or any number of players. array of players.
+    depending on the compatition, number of ends is variable.
+    4 vs 4 = (16?) number of ends.
+    3 vs 3 = less number of ends.
+    design is completely up to me.
+    select the end number, select the score, then return to homescreen, view players.
+    be creative with the design.
+    making it digital may allow for more information recording.
+    option to take a picture that is assigned to a particular end.
+    for the old generation, appropriate easy-to-use design.
+    only javascript, no typescript.
+    react and react native only.
+    don't use create react app CLI, only expo CLI.
+    expo CLI will say 'this component is depreciated. please use ooo instead.'.
+    react navigation.
+    async storage.
+    submissions with unauthorised libraries. email and justify reason if want to use third party libraries.
+    not allowed: generated codes, frameworks, other tools.
+
+    MUST
+    1. user create new card
+    - name
+    - date
+    - rink number
+    - team names
+    - team number (?)
+    2. user can add the shots for each end to a team.
+    - the running total should be calculated and presented.
+    SHOULD
+    3. user experience and interface should be designed (no tiny little boxes, bigger boxes, button, easy to use, no tech savvy)
+    COULD
+    4. use Reducer and the context hooks, to manage data across the application.
+    - implement a persisten storage system either locally or externally.
+    5. over 4. user should see array of cards, 
+    - uniform results (e.g. scroll through page), 
+    - edit previously played cards and the result, 
+    - remove previously played card. 
+    6. take picture with camera hardware
+    - retrievable later when reopening the app.
+    Quality of code.
+    - no inline styling.
+    - user experience (specifically mobile, old generation, obvious, easy to use)
+    - independent research done beyond the taught material
+    - the requirement operates in a bug-free fashion. 
+    Viva
+    - will be asked about the code for the ownership of the code multiplier either 1, 0.6, and so on. e.g. 100% * 0.6 = 60%
+    Only zip file as submission.
+    node-modules is not required (size is too big).
+    save the image url, not the image it self.
+    saving feature will require independent research.
+    24th
