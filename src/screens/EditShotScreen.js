@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
-const AddShotScreen = ({navigation, route}) => {
-    const {teamAname, teamBname, onAddShot } = route.params;
-    const [shotA, setShotA] = useState(0);
-    const [shotB, setShotB] = useState(0);
+const EditShotScreen = ({navigation, route}) => {
+    const {shotA:shotAa, shotB: shotBb, teamAname, teamBname, onEditShot } = route.params;
+    const [shotA, setShotA] = useState(shotAa);
+    const [shotB, setShotB] = useState(shotBb);
 
     return (
         <View>
@@ -30,7 +30,7 @@ const AddShotScreen = ({navigation, route}) => {
             <Text>{shotA ? 'teamA': 'teamB'}</Text>
             <Button title='Submit Item' 
                 onPress={() => {
-                    onAddShot(shotA ? 'teamA': 'teamB', parseInt(shotA) || parseInt(shotB));
+                    onEditShot(shotA ? 'teamA': 'teamB', parseInt(shotA) || parseInt(shotB));
                     navigation.pop();
             }} />
         </View>
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default AddShotScreen;
+export default EditShotScreen;

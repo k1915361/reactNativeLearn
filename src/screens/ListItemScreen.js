@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import ItemContext  from '../contexts/ItemContext'; 
 
 const ListViewScreen = ({navigation, route}) => {
     const { id, competitionName, rinkNumber, teamA, teamB, date, handleUpdate, shots: shotss } = route.params;
@@ -12,13 +11,44 @@ const ListViewScreen = ({navigation, route}) => {
     const getValue = (obj, key, key2) => obj?.[key]?.[key2];
 
     const handleAddShot = (team, shot) => {
-        setShots({...shots, [Object.keys(shots).length]: {team, shot}});
-        handleUpdate({...route.params, shots});            
+        setShots({...shots, [Object.keys(shots).length]: {team, shot}});        
+        const newShots = {...shots, [Object.keys(shots).length]: {team, shot}};
+        handleUpdate({...route.params, shots: {...newShots}});            
     }
 
     const playerRowRenderer = (id) => <Text>
         {getName(teamA, (`player${id}`))} {id} {getName(teamB, (`player${id}`))}
     </Text>; 
+
+    const shotsRenderer = () => {
+        let totalA = 0;
+        let totalB = 0;
+        return Object.keys(shots).map(key => {
+            const obj = shots[key];
+            const shot = obj.shot;
+            const team = obj.team;
+            const end = Number.parseInt(key)+1;
+            const shotA = team === 'teamA' ? shot : 0;
+            const shotB = team === 'teamB' ? shot : 0;
+            team === 'teamA' ? totalA += shot : totalB += shot;
+            return <Text> 
+                {shotA}   |    {totalA}     |     {end}    |     {shotB}     |   {totalB}
+            </Text>;
+        })
+    };
+    
+    const getShotsTotal = () => {
+        let totalA = 0;
+        let totalB = 0;
+        Object.keys(shots).map(key => {
+            const shot = shots[key].shot;
+            const team = shots[key].team;
+            team === 'teamA' ? totalA += shot : totalB += shot;
+        });
+        return {totalA, totalB};
+    };
+
+    const {totalA, totalB} = getShotsTotal();
 
     return (
          <View style={styles.viewContainer}>  
@@ -29,42 +59,36 @@ const ListViewScreen = ({navigation, route}) => {
                     Date: {new Date(date).toLocaleDateString()}      Rink No: {rinkNumber} 
                 </Text>
                 <Text style={styles.text}>
-                    {teamA && teamA.name} vs {teamB && teamB.name}</Text>
+                    {teamA?.name} vs {teamB?.name}</Text>
                 {playerRowRenderer(1)}
                 {playerRowRenderer(2)}
                 {playerRowRenderer(3)}
                 {playerRowRenderer(4)}
-                <Text>Shots | Total | Ends | Shots | Total</Text>     
-                <Text>{Object.keys(shots).length}</Text>
-                <Text>{JSON.stringify(shots)}</Text>
-                <Pressable onPress={() => navigation.navigate('AddShot', {
-                    teamAname: teamA && teamA.name,
-                    teamBname: teamB && teamB.name,
-                    onChangeShot: (team, val) => handleAddShot(team, val),
+                <Text>Shots | Total | Ends | Shots | Total</Text> 
+                {shotsRenderer()}    
+                <Text>Total: {totalA} | {totalB}            </Text>
+                <Pressable 
+                    onPress={() => navigation.navigate('AddShot', {
+                    teamAname: teamA?.name,
+                    teamBname: teamB?.name,
+                    onAddShot: (team, val) => handleAddShot(team, val),
                 })}>
                     <Text>
-                        <Text>Add Shot</Text>
+                        <Text style={styles.titleText}>Add Shot</Text>
                         <MaterialIcons name='add' size={24} color='black' />  
                     </Text>
-                </Pressable>                               
-            </View>
-            <Pressable onPress={() => navigation.navigate('ViewItem', {
-                id: item.id,
-                title: item.title,
-                content: item.content,
-                date: item.date.toUTCString()
-            })}>
-            </Pressable>
-            <View style={styles.listContainer} >
-                <FlatList
-                    data={{}}
-                    keyExtractor={(e) => e.id.toString()}
-                    renderItem={({item}) => {
-                        return('');
-                    }}
-                />
-            </View>
-    </View>
+                </Pressable>
+                <Pressable 
+                    onPress={() => navigation.navigate('EditShot', {
+                    onEditShot: (team, val) => handleAddShot(team, val),
+                })}>
+                    <Text>
+                        <Text style={styles.titleText}>Edit Shot</Text>
+                        <MaterialIcons name='edit' size={24} color='black' />  
+                    </Text>
+                </Pressable>
+            </View> 
+        </View>
     );
 };
 
@@ -117,3 +141,21 @@ const goBackCardsScreen = () => {
             </Pressable>
     });
 };
+
+let unused = () => <Pressable onPress={() => navigation.navigate('ViewItem', {
+    id: item.id,
+    title: item.title,
+    content: item.content,
+    date: item.date.toUTCString()
+})}>
+</Pressable>
+
+unused = () => <View style={styles.listContainer} >
+    <FlatList
+        data={{}}
+        keyExtractor={(e) => e.id.toString()}
+        renderItem={({item}) => {
+            return('');
+        }}
+    />
+</View>

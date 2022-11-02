@@ -59,7 +59,7 @@ const ListCardScreen = ({navigation}) => {
                                     {item.rinkNumber}
                                 </Text>
                                 <Text style={styles.titleText}>
-                                    {item.teamA && item.teamA.name} vs {item.teamB && item.teamB.name}
+                                    {item?.teamA?.name} vs {item?.teamB?.name}
                                 </Text>
                                 <Pressable
                                     onPress={() => {
@@ -138,13 +138,11 @@ const styles = StyleSheet.create({
     },
 });
 
-
-
 export default ListCardScreen;
 
 
 
-
+let IGNOREallBelow;
 
 const saveAppState = async () => {
     try {     

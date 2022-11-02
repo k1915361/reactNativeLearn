@@ -36,14 +36,15 @@ when to use asyncstorage "save"
         o Shots for each end can only be applied to one team.
         e.g., if one team gets shots the other team gets zero
 
-#3 (1.5m)
+#3 (1.5m) UI
     • The user experience and interface should be designed and
     styled appropriately for the older generation and not tech
     savvy individuals.
     SHOULD
     1.5 marks
 
-#4 (3m)
+#4 (3m) storage
+    (reducers, context, persistent Storage)
     • Implement an effective use of the Reducers and the Context
     hooks, to manage data across the application.
     • Implement a persistent storage system either locally or
@@ -51,7 +52,7 @@ when to use asyncstorage "save"
     COULD
     3 marks
 
-#5 (3m)
+#5 (3m) TODO-2 EDIT Card 
     • A user should be able to view previously played cards and
     view the full results.
     • A user should be able to edit previously played cards and
@@ -60,7 +61,7 @@ when to use asyncstorage "save"
     COULD
     3 marks
 
-#6 (1.5)
+#6 (1.5) PHOTOSHOOT & SAVE (each end)
     • A user, can optionally take a picture for each end using the
     camera hardware. The picture should be retrievable in
     future uses of the application.
