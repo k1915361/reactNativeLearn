@@ -43,6 +43,11 @@ const EditItemScreen = ({navigation, route}) => {
             {textInput(items, 'competitionName')}
             <Text style={styles.textLabel}>Rink Number:</Text>
             {textInput(items, 'rinkNumber')}
+            <Text style={styles.textLabel}>Team Name:</Text>
+            <View style={styles.textInputRowContainer}>
+                {textInput(items, 'teamA.name')}
+                {textInput(items, 'teamB.name')}
+            </View>
             <Text style={styles.textLabel}>Players:</Text>
             <View style={styles.textInputRowContainer}>
                 {['A','B'].map(team => 
@@ -75,7 +80,7 @@ const EditItemScreen = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
     editScreenContainer: {
-        alignContent:"center",
+        // alignContent:"center",
         alignSelf:"center",
     },
     itemsText: {
