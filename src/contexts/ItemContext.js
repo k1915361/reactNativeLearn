@@ -39,7 +39,6 @@ const reducer = (state, action) => {
                 {
                     id: Math.floor(Math.random() * 99999),
                     title: action.payload.title,
-                    // content: action.payload.content,
                     ...action.payload.content,
                     date: new Date()
                 }
@@ -67,6 +66,11 @@ const reducer = (state, action) => {
                 ...state, {
                     id: action.payload.id,
                     title: action.payload.title,
+                    competitionName: action.payload.competitionName,
+                    rinkNumber: action.payload.rinkNumber,
+                    teamA: action.payload.teamA,
+                    teamB: action.payload.teamB,
+                    shots: {...action.payload.shots},
                     content: action.payload.content,
                     date: new Date(action.payload.date)
                 }];

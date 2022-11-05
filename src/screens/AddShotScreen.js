@@ -3,11 +3,12 @@ import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 const AddShotScreen = ({navigation, route}) => {
     const {teamAname, teamBname, onAddShot } = route.params;
+
     const [shotA, setShotA] = useState(0);
     const [shotB, setShotB] = useState(0);
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={styles.textLabel}>Enter your shot:</Text>
             <View style={styles.textInputContainer}>
                 <TextInput style={styles.textInput}
@@ -25,10 +26,11 @@ const AddShotScreen = ({navigation, route}) => {
                     }}
                 />
             </View>
-            <Text>{shotA} {shotB}</Text>
-            <Text>{shotA || shotB}</Text>
-            <Text>{shotA ? 'teamA': 'teamB'}</Text>
+            <Text>{shotA === 0 && shotB === 0}</Text>
+            <Text>{typeof(shotA)} {typeof(shotB)}</Text>
             <Button title='Submit Item' 
+                style={styles.addButton}
+                disabled={Number(shotA) === 0 && Number(shotB) === 0 && true}
                 onPress={() => {
                     onAddShot(shotA ? 'teamA': 'teamB', parseInt(shotA) || parseInt(shotB));
                     navigation.pop();
@@ -38,6 +40,12 @@ const AddShotScreen = ({navigation, route}) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        position: "absolute",
+        top: '20%',
+        alignContent:"center",
+        alignSelf:"center",
+    },
     textLabel: {
         fontSize: 20,
     },
@@ -48,15 +56,16 @@ const styles = StyleSheet.create({
     textInput: {
         borderColor: 'black',
         borderWidth: 1,
-        paddingHorizontal: 0,
         marginBottom: -1,
-        borderRadius: 1,
-        height: 50,       
+        height: 80,
+        textAlign: "center",      
+        borderRadius: 10,
         fontSize: 20,
-        display: 'flex', 
         width: '50%',
     },
-
+    addButton: {
+        height: 150,
+    },
 });
 
 export default AddShotScreen;

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
+import { StyleSheet, View, Text, FlatList, Pressable, ScrollView } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
 const ListViewScreen = ({navigation, route}) => {
@@ -8,11 +8,15 @@ const ListViewScreen = ({navigation, route}) => {
 
     const getName = (team, player) => team?.[player]?.name;
     
-    const getValue = (obj, key, key2) => obj?.[key]?.[key2];
-
     const handleAddShot = (team, shot) => {
-        setShots({...shots, [Object.keys(shots).length]: {team, shot}});        
-        const newShots = {...shots, [Object.keys(shots).length]: {team, shot}};
+        const newShots = {...shots, [keys(shots).length]: {team, shot}};
+        setShots(newShots);        
+        handleUpdate({...route.params, shots: {...newShots}});            
+    }
+    
+    const handleEditShot = (value) => {
+        const newShots = {...shots, value};
+        setShots(newShots); 
         handleUpdate({...route.params, shots: {...newShots}});            
     }
 
@@ -20,20 +24,23 @@ const ListViewScreen = ({navigation, route}) => {
         {getName(teamA, (`player${id}`))} {id} {getName(teamB, (`player${id}`))}
     </Text>; 
 
+    const endRowRenderer = (end,shotA,shotB) => 
+        <Text style={styles.endText}> 
+            {end} 
+            <Text style={styles.shotText}>
+                {shotA}:{shotB}
+            </Text>
+        </Text>;
+
     const shotsRenderer = () => {
-        let totalA = 0;
-        let totalB = 0;
-        return Object.keys(shots).map(key => {
+        return keys(shots).map(key => {
             const obj = shots[key];
             const shot = obj.shot;
             const team = obj.team;
-            const end = Number.parseInt(key)+1;
+            const end = Number(key)+1;
             const shotA = team === 'teamA' ? shot : 0;
             const shotB = team === 'teamB' ? shot : 0;
-            team === 'teamA' ? totalA += shot : totalB += shot;
-            return <Text> 
-                {shotA}   |    {totalA}     |     {end}    |     {shotB}     |   {totalB}
-            </Text>;
+            return endRowRenderer(end, shotA, shotB);
         })
     };
     
@@ -43,58 +50,62 @@ const ListViewScreen = ({navigation, route}) => {
         Object.keys(shots).map(key => {
             const shot = shots[key].shot;
             const team = shots[key].team;
-            team === 'teamA' ? totalA += shot : totalB += shot;
+            team === 'teamA' ? totalA += parseInt(shot) : totalB += parseInt(shot);
         });
         return {totalA, totalB};
     };
 
     const {totalA, totalB} = getShotsTotal();
 
+    const keys = (obj) => Object.keys(obj);
+
     return (
-         <View style={styles.viewContainer}>  
-            <Text>{JSON.stringify({...route.params, shots})} </Text>
+         <ScrollView style={styles.viewContainer}>  
             <View style={styles.itemContainer}>
-                <Text style={styles.titleText}>Competition: {competitionName} </Text>
+                <Text style={''}>Competition:  
+                    <Text style={styles.titleText}> {competitionName} </Text>
+                </Text>
                 <Text style={styles.dateText}>
                     Date: {new Date(date).toLocaleDateString()}      Rink No: {rinkNumber} 
                 </Text>
                 <Text style={styles.text}>
                     {teamA?.name} vs {teamB?.name}</Text>
-                {playerRowRenderer(1)}
-                {playerRowRenderer(2)}
-                {playerRowRenderer(3)}
-                {playerRowRenderer(4)}
-                <Text>Shots | Total | Ends | Shots | Total</Text> 
+                {[1,2,3,4].map(i => playerRowRenderer(i))}
+                <Text style={''}> Ends: </Text> 
                 {shotsRenderer()}    
-                <Text>Total: {totalA} | {totalB}            </Text>
+                <Text style={''}>Total: <Text style={styles.totalText}>{totalA}:{totalB}</Text> </Text>
+                <Text style={''}></Text>
                 <Pressable 
                     onPress={() => navigation.navigate('AddShot', {
                     teamAname: teamA?.name,
                     teamBname: teamB?.name,
                     onAddShot: (team, val) => handleAddShot(team, val),
                 })}>
-                    <Text>
-                        <Text style={styles.titleText}>Add Shot</Text>
+                    <Text style={styles.button}>
+                        <Text style={styles.titleText}> Add Shot </Text>
                         <MaterialIcons name='add' size={24} color='black' />  
                     </Text>
                 </Pressable>
                 <Pressable 
-                    onPress={() => navigation.navigate('EditShot', {
-                    onEditShot: (team, val) => handleAddShot(team, val),
+                    onPress={() => navigation.navigate('EditItem', {
+                    items: {...route.params},
+                    onEditShot: (val) => handleEditShot(val),
                 })}>
-                    <Text>
-                        <Text style={styles.titleText}>Edit Shot</Text>
+                    <Text style={styles.button}>
+                        <Text style={styles.editText}> Edit Items </Text>
                         <MaterialIcons name='edit' size={24} color='black' />  
                     </Text>
                 </Pressable>
             </View> 
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     viewContainer: {
         bottom: 0,
+        left:0,
+        right:0,
     },
     listContainer: {
     },
@@ -113,13 +124,32 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 16,
     },
+    defaultText: {
+        fontSize: 14,
+    },
+    endText: {
+        fontSize: 8,
+    },
+    shotText: {
+        fontSize: 20,
+    },
+    totalText: {
+        fontSize: 30,
+    },
+    editText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
     titleText: {
         fontSize: 16,
         fontWeight: 'bold',
     },
     button: {
-        backgroundColor: '#3399ff',
-        borderRadius: 5,
+        padding: 30,
+        backgroundColor: '#55aaee',
+        borderRadius: 100,
+        marginVertical: 3,
+        color:'black',
     },
     addItemText: {
         fontSize: 16,

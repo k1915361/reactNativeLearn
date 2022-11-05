@@ -6,7 +6,7 @@ const testCard = { competitionName: 'aComp', rinkNumber: 11, date: new Date(), t
 
 const AddCardScreen = ({navigation, route}) => {
     const {create} = useContext(ItemContext);
-    const [card, setCard] = useState({ competitionName: '', rinkNumber: '', date: new Date(), teamA: { name: '', player1: { name: '',},  player2: { name: '',},  player3: { name: '',},  player4: { name: '',},  }, teamB: {name: '',player1: { name: '',},  player2: { name: '',},  player3: { name: '',},  player4: { name: '',},} });
+    const [card, setCard] = useState({ date: new Date(),});
 
     const getPlayerTextInput = (team, player) => 
         <TextInput
@@ -19,7 +19,7 @@ const AddCardScreen = ({navigation, route}) => {
         <View style={styles.gridRowContainer}>
             <Text>Competition:</Text>
             <TextInput
-                placeholder="type Competition" value={card.competitionName}
+                placeholder="type Competition Name" value={card.competitionName}
                 style={styles.textInput}
                 onChangeText={(text) => setCard({...card,  competitionName: text})}
             />

@@ -24,15 +24,17 @@ const ListCardScreen = ({navigation}) => {
         update(card.id, card);
     }
 
+
     return (
         <View>
-            <Text>{JSON.stringify(state)}</Text>            
+            <Text>Test: {state[0]?.id} {state[0]?.teamA?.player1?.name} {state[0]?.shots[0]?.shot}</Text>
             <FlatList
                 data={state} 
                 keyExtractor={(e) => e.id}
                 renderItem={({item}) => {
                     return(
                         <Pressable onPress={() => navigation.navigate('ListItem', {
+                            key: item.id,
                             id: item.id,
                             competitionName: item.competitionName,
                             rinkNumber: item.rinkNumber,
@@ -48,23 +50,24 @@ const ListCardScreen = ({navigation}) => {
                                     <Text style={styles.dateText}>
                                         {new Date(item.date).toLocaleDateString()}
                                     </Text>
-                                    <Text>
+                                    <Text style={styles.timeText}>
                                         {new Date(item.date).toLocaleTimeString()}
                                     </Text>
                                 </View>
                                 <Text style={styles.titleText}>
-                                    {item.competitionName}
+                                    {item.competitionName}          
                                 </Text>
                                 <Text style={styles.titleText}>
-                                    {item.rinkNumber}
+                                    {item.rinkNumber}       
                                 </Text>
                                 <Text style={styles.titleText}>
                                     {item?.teamA?.name} vs {item?.teamB?.name}
                                 </Text>
                                 <Pressable
+                                    style={styles.removeButton}
                                     onPress={() => {
                                         remove(item.id)
-                                }}>
+                                    }}>
                                     <MaterialIcons name='delete' size={38} color="red"/>
                                 </Pressable>
                             </View>
@@ -77,11 +80,45 @@ const ListCardScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
+    itemContainer: {
+        marginTop: 15,
+        padding: 15, 
+        flex:1,
+        borderBottomWidth: 1, 
+        alignItems: 'center', 
+        flexDirection:'row', 
+        flexWrap:'wrap',    
+    },
+    dateContainer: { 
+        alignItems: 'center', 
+    },
+    dateText: { 
+        fontSize: 16, 
+        fontWeight: 'bold',
+    },
+    timeText: { 
+
+    },
+    titleText: {
         flex: 1,
+        flexDirection: 'row',
+        fontSize: 16,
+        paddingLeft: 15,
+    },
+    removeButton: {
+        borderRadius: 5,
+    },
+    button: {
+        backgroundColor: '#3399ff',
+        borderRadius: 5,
+    },
+    viewAllCardsButton: {},
+    viewAllCardsText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    container: {
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
         marginInTop: 59,
     },
     heading: {
@@ -97,44 +134,6 @@ const styles = StyleSheet.create({
     img: {
         width: 250,
         height: 250
-    },
-    itemContainer: {
-        borderWidth: 1,
-        borderColor: 'grey',
-        borderRadius: 4,
-        padding: 5,
-      marginVertical: 5,
-    },
-    itemContainer: {
-        marginTop: 15,
-        padding: 15,
-        borderBottomWidth: 1,
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    dateContainer: {
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    dateText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    titleText: {
-        fontSize: 16,
-        paddingLeft: 15,
-        flex: 1,
-        alignSelf: 'flex-start',
-    },
-    button: {
-        backgroundColor: '#3399ff',
-        borderRadius: 5,
-    },
-    viewAllCardsButton: {},
-    viewAllCardsText: {
-        fontSize: 16,
-        fontWeight: 'bold',
     },
 });
 

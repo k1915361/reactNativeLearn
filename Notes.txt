@@ -52,12 +52,13 @@ when to use asyncstorage "save"
     COULD
     3 marks
 
-#5 (3m) TODO-2 EDIT Card 
-    • A user should be able to view previously played cards and
-    view the full results.
-    • A user should be able to edit previously played cards and
+#5 (3m) ! EDIT Card 
+    • 
+        A user should be able to view previously played cards and view the full results.
+    • TODO A user should be able to edit previously played cards and
     make changes to the results.
-    • A user should be able to remove a previously played card.
+    • 
+        A user should be able to remove a previously played card.
     COULD
     3 marks
 
