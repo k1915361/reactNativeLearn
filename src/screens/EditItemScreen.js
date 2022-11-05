@@ -58,29 +58,28 @@ const EditItemScreen = ({navigation, route}) => {
                     </View>
                 )}
             </View>
-            <Text style={styles.textLabel}>Ends (Team Name - Score): </Text>
+            <Text style={styles.textLabel}>Ends Team-Name Score: </Text>
             {Object.keys(shots).map(key => {
                 return (
                     <View>
                         <View style={styles.textInputRowContainer}>
                             <Text>{Number(key)+1}</Text>
-                            {/* {textInput(items, `shots.${key}.team`)} */}
                             {textInputOnChangeText(items, `shots.${key}.team`, (val) => handleTeamChange(val, key))}
                             {textInput(items, `shots.${key}.shot`)}
                         </View>
                     </View>
                 );
             })}
-            <Button title='Save Edit' onPress={() => {
-                update(currentEntry.id, items, () => navigation.popToTop());
-            }} />
+                <Button title='Save Edit' 
+                    onPress={() => {
+                        update(currentEntry.id, items, () => navigation.popToTop());
+                }} />
         </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     editScreenContainer: {
-        // alignContent:"center",
         alignSelf:"center",
     },
     itemsText: {
@@ -92,10 +91,6 @@ const styles = StyleSheet.create({
     },
     textInputRowContainer: {
         flexDirection: 'row',
-        flexWrap: 'wrap', 
-    },
-    textInputColumnContainer: {
-        flexDirection: 'column',
         flexWrap: 'wrap', 
     },
     textInput: {

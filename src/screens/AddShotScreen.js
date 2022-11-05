@@ -29,7 +29,6 @@ const AddShotScreen = ({navigation, route}) => {
             <Text>{shotA === 0 && shotB === 0}</Text>
             <Text>{typeof(shotA)} {typeof(shotB)}</Text>
             <Button title='Submit Item' 
-                style={styles.addButton}
                 disabled={Number(shotA) === 0 && Number(shotB) === 0 && true}
                 onPress={() => {
                     onAddShot(shotA ? 'teamA': 'teamB', parseInt(shotA) || parseInt(shotB));
@@ -43,7 +42,6 @@ const styles = StyleSheet.create({
     container: {
         position: "absolute",
         top: '20%',
-        alignContent:"center",
         alignSelf:"center",
     },
     textLabel: {

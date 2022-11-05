@@ -11,13 +11,13 @@ const ListViewScreen = ({navigation, route}) => {
     const handleAddShot = (team, shot) => {
         const newShots = {...shots, [keys(shots).length]: {team, shot}};
         setShots(newShots);        
-        handleUpdate({...route.params, shots: {...newShots}});            
+        handleUpdate({...route.params, shots: {...newShots || {}}});            
     }
     
     const handleEditShot = (value) => {
         const newShots = {...shots, value};
         setShots(newShots); 
-        handleUpdate({...route.params, shots: {...newShots}});            
+        handleUpdate({...route.params, shots: {...newShots || {}}});            
     }
 
     const playerRowRenderer = (id) => <Text>
