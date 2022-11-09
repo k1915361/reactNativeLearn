@@ -100,13 +100,14 @@ const styles = StyleSheet.create({
         marginBottom: -1, 
         borderRadius: 10, 
         textAlign: "center",
-        paddingHorizontal: 60, 
-        // paddingVertical: 0, 
+        paddingHorizontal: 0,
+        maxWidth: 100, 
+        width: 100, 
+        paddingVertical: 0, 
         height: 40, 
         fontSize: 20, 
         padding: 0,
         margin: 4,
-        // width: 'null', 
     },
 });
 

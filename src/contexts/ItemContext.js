@@ -1,8 +1,8 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { actionTypes } from '../helpers/actionTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const STORAGE_KEY = '@items';
+const STORAGE_KEY = '@items';   
 
 const dummyPlayers1 = [
     {
@@ -72,7 +72,7 @@ const reducer = (state, action) => {
                     teamB: action.payload.teamB,
                     shots: {...action.payload.shots},
                     content: action.payload.content,
-                    date: new Date(action.payload.date)
+                    date: new Date(action.payload.date),
                 }];
         default: 
             return state;
@@ -102,9 +102,7 @@ export const ItemProvider = ({children}) => {
     const addItem = (title, content, callback) => {
         dispatch({ type: actionTypes.create, payload: { title, content }})
         dispatch({ type: actionTypes.save })
-        if (callback) {
-            callback()
-        };
+        if (callback) { callback() };
     }
 
     const updateItem = (id, content, callback) => {

@@ -10,6 +10,8 @@ import EditItemScreen from './src/screens/EditItemScreen';
 import AddPlayerScreen from './src/screens/AddPlayerScreen';
 import ListPlayerScreen from './src/screens/ListPlayerScreen';
 import { ItemProvider } from './src/contexts/ItemContext';
+import CameraScreen from './src/screens/CameraScreen';
+import CameraPhotoScreen from './src/screens/CameraPhotoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +19,17 @@ const App = () => {
   return (
     <ItemProvider>
         <NavigationContainer >
-            <Stack.Navigator initialRouteName='ListCard' >
+            <Stack.Navigator initialRouteName='Camera' >
+                <Stack.Screen 
+                    name="Camera"
+                    component={CameraScreen}
+                    options={{ title: 'Take a snap' }}
+                />
+                <Stack.Screen 
+                    name="Photo"
+                    component={CameraPhotoScreen}
+                    options={{ title: 'Your Picture' }}
+                />
                 <Stack.Screen 
                     name="ListCard"
                     component={ListCardScreen}
