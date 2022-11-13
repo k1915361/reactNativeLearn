@@ -23,11 +23,17 @@ const EditItemScreen = ({navigation, route}) => {
             style
     ); 
     
-    const textInputOnChangeText = (obj, path, onChangeText, style) => 
+    const textInputOnChangeTextByObjectPath = (obj, path, onChangeText, style) => 
          textInputRender(
             String(get(obj, path)), 
             onChangeText,
             style
+    ); 
+    
+    const textInputOnChangeText = (value, onChangeText) => 
+         textInputRender(
+            value, 
+            onChangeText
     ); 
 
     const getTeamName = (team) => items?.[team === 'teamA' ? 'teamA' : 'teamB']?.name;
@@ -39,18 +45,20 @@ const EditItemScreen = ({navigation, route}) => {
                 val.includes('teamA') ? 'teamB': 'teamA' )
     ); 
 
+    const deleteObjectProperty = (key) => delete items.shots[key];
+
+    const deleteEnd2 = (items) => setItems(items);
+    
     const deleteEnd = (key) => {
-        console.log('before', items.shots[key]);
-        delete items.shots[key];
-        console.log('after', items.shots[key]);
-        setItems(
-            items
-        );
+        deleteObjectProperty(key)
+        setItems(items);
     }
+
+    const getShotEndTeamName = (key) => getTeamName(items.shots[key].team);
 
     return (
         <ScrollView style={styles.editScreenContainer}>
-            <Text>{getTeamName('teamA') }</Text>
+            <Text>{ }</Text>
             <Text style={styles.textLabel}>Competition Name:</Text>
             {textInput(items, 'competitionName')}
             <Text style={styles.textLabel}>Rink Number:</Text>
@@ -75,10 +83,11 @@ const EditItemScreen = ({navigation, route}) => {
                 return (
                     <View>
                         <View style={styles.textInputRowContainer}>
-                            <Text>{Number(key)+1}</Text>
-                            {textInputOnChangeText(items, `shots.${key}.team`, (val) => handleTeamChange(val, key))}
+                            <Text>{Number(key)+1} </Text>
+                            {textInputOnChangeTextByObjectPath(items, `shots.${key}.team`, (val) => handleTeamChange(val, key))}
+                            <Text> {getShotEndTeamName(key)}</Text>
                             {textInput(items, `shots.${key}.shot`)}
-                            <MaterialIcons name='delete' size={24} color='red' onPress={(key) => deleteEnd(key)} />
+                            <MaterialIcons name='delete' size={24} color='red' onPress={() => deleteEnd(key)} />
                         </View>
                     </View>
                 );
