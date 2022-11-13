@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, View, Text, FlatList, Pressable, ScrollView } from "react-native";
+import { StyleSheet, View, Text, FlatList, Pressable, ScrollView, Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import { jsnstringify } from "../helpers/helper";
 
 const ListViewScreen = ({navigation, route}) => {
     const { id, competitionName, rinkNumber, teamA, teamB, date, handleUpdate, shots: shotss } = route.params;
@@ -8,8 +9,8 @@ const ListViewScreen = ({navigation, route}) => {
 
     const getName = (team, player) => team?.[player]?.name;
     
-    const handleAddShot = (team, shot) => {
-        const newShots = {...shots, [keys(shots).length]: {team, shot}};
+    const handleAddShot = (shot) => {
+        const newShots = {...shots, [keys(shots).length]: {...shot}};
         setShots(newShots);        
         handleUpdate({...route.params, shots: {...newShots || {}}});            
     }
@@ -24,24 +25,32 @@ const ListViewScreen = ({navigation, route}) => {
         {getName(teamA, (`player${id}`))} {id} {getName(teamB, (`player${id}`))}
     </Text>; 
 
-    const endRowRenderer = (end,shotA,shotB) => 
+    const endRowRenderer = (end,shotA,shotB,image) => 
         <Text style={styles.endText}> 
             {end} 
             <Text style={styles.shotText}>
                 {shotA}:{shotB}
             </Text>
+            <Image style={styles.thumbnailStyle} source={ {uri:image}}/>
         </Text>;
 
+    const getShotData = (obj) => {
+        const shot = obj.shot;
+        const team = obj.team;
+        const shotA = team === 'teamA' ? shot : 0;
+        const shotB = shotA ? 0 : shot;
+        return { shotA, shotB };
+    }; 
+
+    const getEndNumber = (key) => Number(key)+1;
+
+    const getEndImage = (key) => shots[key]?.image || '';
+
     const shotsRenderer = () => {
-        return keys(shots).map(key => {
-            const obj = shots[key];
-            const shot = obj.shot;
-            const team = obj.team;
-            const end = Number(key)+1;
-            const shotA = team === 'teamA' ? shot : 0;
-            const shotB = team === 'teamB' ? shot : 0;
-            return endRowRenderer(end, shotA, shotB);
-        })
+        keys(shots)?.map(key => {
+            const { shotA, shotB } = getShotData(shots[key]);
+            return endRowRenderer(getEndNumber(key), shotA, shotB, getEndImage(key));
+        });
     };
     
     const getShotsTotal = () => {
@@ -62,6 +71,7 @@ const ListViewScreen = ({navigation, route}) => {
     return (
          <ScrollView style={styles.viewContainer}>  
             <View style={styles.itemContainer}>
+                <Text style={''}>{jsnstringify(shots)}</Text>
                 <Text style={''}>Competition:  
                     <Text style={styles.titleText}> {competitionName} </Text>
                 </Text>
@@ -108,6 +118,10 @@ const styles = StyleSheet.create({
         right:0,
     },
     listContainer: {
+    },
+    thumbnailStyle: {
+        width: 10,
+        height: 10,
     },
     itemContainer: {
         fontSize: 50,

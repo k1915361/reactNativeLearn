@@ -23,6 +23,10 @@ export const setProperties = (obj, path, value) => {
     }
 }
 
+export const jsnstringify = (obj) => JSON.stringify(obj); 
+
+export const typeOf = (obj) => typeof(obj);
+
 export const updateObjPropExperiment = (obj, path, val) =>{     
     path = path.split('.');
     return obj[path[0]][path[1]][path[2]] = val;

@@ -19,7 +19,7 @@ const App = () => {
   return (
     <ItemProvider>
         <NavigationContainer >
-            <Stack.Navigator initialRouteName='Camera' >
+            <Stack.Navigator initialRouteName='ListCard' >
                 <Stack.Screen 
                     name="Camera"
                     component={CameraScreen}

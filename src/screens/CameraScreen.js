@@ -2,24 +2,48 @@ import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system';
 
-const CameraScreen = ({ navigation }) => {
+const CameraScreen = ({ navigation, onSetImage }) => {
     const [hasPermission, setHasPermission] = useState(null);
     let camera;
+    
+    useEffect(() => { getCameraPermission(); }, []);
+
     const getPicture = async () => {
         if (camera) {
             const photo = await camera.takePictureAsync();
-            navigation.navigate('Photo', { uri: photo.uri });
-        }
-    }
+            await createAsset(photo.uri);
+            onSetImage(photo.uri);
+            // navigation.pop();            
+            // navigation.navigate('Photo', { 
+            //     uri: photo.uri,
+            //     onSetImage: (uri) => onSetImage(uri)
+            // });
+        };
+    };
+
+    const createLocalUri = async (uri) => await FileSystem.downloadAsync(uri, FileSystem.documentDirectory + filename);
+
+    const createAsset = async (uri) => await MediaLibrary.createAssetAsync(uri);
+
+    const createAlbum = async (asset) => await MediaLibrary.createAlbumAsync('Download', asset);
     
-    const getPermission = async () => {
+    const navigateToViewSnappedPhoto = (photo) => navigation.navigate('Photo', { 
+        uri: photo.uri,
+        onSetImage: (uri) => onSetImage(uri)
+    });
+
+    const getCameraPermission = async () => {
         const { status } = await Camera.requestCameraPermissionsAsync();
         setHasPermission(status === 'granted');
     };
-    useEffect(() => {
-        getPermission();
-    }, []);
+
+    const getMediaPermission = async () => {
+        const { status } = await MediaLibrary.getPermissionsAsync();
+        setIsAccessMediaLocationEnabled(status === true);
+    };
+
     if (hasPermission === null) {
         return <Text>Awaiting Permission</Text>
     }

@@ -8,6 +8,7 @@ npx npm commands
 
 shortcut keys
     ctrl alt f (beautify)
+    ctrl shift Fn up/downArrow (move tabs)
 
 when to use asyncstorage "save"
     - when exiting an app, save the data state first then exit the app.
