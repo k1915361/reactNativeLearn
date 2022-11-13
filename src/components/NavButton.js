@@ -1,11 +1,13 @@
 import { Button, StyleSheet } from 'react-native';
 
-const NavButton = ({ screenName, navigation }) => {
+const NavButton = ({ screenName, navigation, params }) => {
     return (
         <Button 
-            title={`Go to ${screenName}`} 
+            title={`${screenName}`} 
             onPress={() => {
-                navigation.navigate(screenName.replace(' ', ''));
+                navigation.navigate(screenName.replace(' ', ''), {
+                    ...params
+                });
             }}    
         />
     )

@@ -12,6 +12,7 @@ import ListPlayerScreen from './src/screens/ListPlayerScreen';
 import { ItemProvider } from './src/contexts/ItemContext';
 import CameraScreen from './src/screens/CameraScreen';
 import CameraPhotoScreen from './src/screens/CameraPhotoScreen';
+import ViewImageScreen from './src/screens/ViewImageScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,11 @@ const App = () => {
     <ItemProvider>
         <NavigationContainer >
             <Stack.Navigator initialRouteName='ListCard' >
+                <Stack.Screen 
+                    name="ViewImage"
+                    component={ViewImageScreen}
+                    options={{ title: 'View Image' }}
+                />
                 <Stack.Screen 
                     name="Camera"
                     component={CameraScreen}

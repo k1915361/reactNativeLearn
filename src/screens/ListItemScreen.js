@@ -1,7 +1,9 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, View, Text, FlatList, Pressable, ScrollView, Image } from "react-native";
+import { StyleSheet, View, Text, FlatList, Pressable, ScrollView, Image, Button } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { jsnstringify } from "../helpers/helper";
+import { jsnstringify, keys } from "../helpers/helper";
+import ViewImageScreen from "./ViewImageScreen";
+import NavButton from "../components/NavButton";
 
 const ListViewScreen = ({navigation, route}) => {
     const { id, competitionName, rinkNumber, teamA, teamB, date, handleUpdate, shots: shotss } = route.params;
@@ -25,14 +27,19 @@ const ListViewScreen = ({navigation, route}) => {
         {getName(teamA, (`player${id}`))} {id} {getName(teamB, (`player${id}`))}
     </Text>; 
 
+    const getNavButton = (screenName, params) => <NavButton screenName={screenName} navigation={navigation} params={params} />
+
     const endRowRenderer = (end,shotA,shotB,image) => 
         <Text style={styles.endText}> 
             {end} 
             <Text style={styles.shotText}>
                 {shotA}:{shotB}
             </Text>
-            <Image style={styles.thumbnailStyle} source={ {uri:image}}/>
+            {image && getNavButton('View Image', {image: image} )}
+            {image && getImageRenderer(image)}
         </Text>;
+
+    const getImageRenderer = (image) => <Image style={styles.thumbnailStyle} source={{ uri:image }} resizeMode='cover' />
 
     const getShotData = (obj) => {
         const shot = obj.shot;
@@ -44,12 +51,12 @@ const ListViewScreen = ({navigation, route}) => {
 
     const getEndNumber = (key) => Number(key)+1;
 
-    const getEndImage = (key) => shots[key]?.image || '';
+    const getEndImageByKey = (key) => shots[key]?.image || '';
 
     const shotsRenderer = () => {
-        keys(shots)?.map(key => {
+        return keys(shots)?.map(key => {
             const { shotA, shotB } = getShotData(shots[key]);
-            return endRowRenderer(getEndNumber(key), shotA, shotB, getEndImage(key));
+            return endRowRenderer(getEndNumber(key), shotA, shotB, getEndImageByKey(key));
         });
     };
     
@@ -66,12 +73,10 @@ const ListViewScreen = ({navigation, route}) => {
 
     const {totalA, totalB} = getShotsTotal();
 
-    const keys = (obj) => Object.keys(obj);
-
     return (
          <ScrollView style={styles.viewContainer}>  
             <View style={styles.itemContainer}>
-                <Text style={''}>{jsnstringify(shots)}</Text>
+                <Text style={''}>{jsnstringify()}</Text>
                 <Text style={''}>Competition:  
                     <Text style={styles.titleText}> {competitionName} </Text>
                 </Text>
@@ -83,6 +88,7 @@ const ListViewScreen = ({navigation, route}) => {
                 {[1,2,3,4].map(i => playerRowRenderer(i))}
                 <Text style={''}> Ends: </Text> 
                 {shotsRenderer()}    
+                <Text style={''}> {jsnstringify()} </Text> 
                 <Text style={''}>Total: <Text style={styles.totalText}>{totalA}:{totalB}</Text> </Text>
                 <Text style={''}></Text>
                 <Pressable 
@@ -120,8 +126,9 @@ const styles = StyleSheet.create({
     listContainer: {
     },
     thumbnailStyle: {
-        width: 10,
-        height: 10,
+        width: 60,
+        height: 60,
+        scale: 0.01,
     },
     itemContainer: {
         fontSize: 50,

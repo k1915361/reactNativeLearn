@@ -27,9 +27,6 @@ const AddShotScreen = ({navigation, route}) => {
             aspect: [4, 3],
             quality: 1,
         });    
-
-        console.log(result);
-
         if (!result.cancelled) {
             setImage(result.uri);
         }    

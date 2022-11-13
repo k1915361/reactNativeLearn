@@ -1,7 +1,8 @@
 import { useContext, useState } from "react";
 import { Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import ItemContext from "../contexts/ItemContext";
-import { get, setProperties } from '../helpers/helper';
+import { get, keys, setProperties } from '../helpers/helper';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const EditItemScreen = ({navigation, route}) => {
     const { id, shots } = route.params.items;
@@ -29,6 +30,8 @@ const EditItemScreen = ({navigation, route}) => {
             style
     ); 
 
+    const getTeamName = (team) => items?.[team === 'teamA' ? 'teamA' : 'teamB']?.name;
+
     const handleTeamChange = (val, key) => 
         setItems(
             setProperties(items, 
@@ -36,9 +39,18 @@ const EditItemScreen = ({navigation, route}) => {
                 val.includes('teamA') ? 'teamB': 'teamA' )
     ); 
 
+    const deleteEnd = (key) => {
+        console.log('before', items.shots[key]);
+        delete items.shots[key];
+        console.log('after', items.shots[key]);
+        setItems(
+            items
+        );
+    }
+
     return (
         <ScrollView style={styles.editScreenContainer}>
-            <Text>{ }</Text>
+            <Text>{getTeamName('teamA') }</Text>
             <Text style={styles.textLabel}>Competition Name:</Text>
             {textInput(items, 'competitionName')}
             <Text style={styles.textLabel}>Rink Number:</Text>
@@ -58,14 +70,15 @@ const EditItemScreen = ({navigation, route}) => {
                     </View>
                 )}
             </View>
-            <Text style={styles.textLabel}>Ends Team-Name Score: </Text>
-            {Object.keys(shots).map(key => {
+            <Text style={styles.textLabel}>Ends | TeamName | Score: </Text>
+            {keys(items.shots).map(key => {
                 return (
                     <View>
                         <View style={styles.textInputRowContainer}>
                             <Text>{Number(key)+1}</Text>
                             {textInputOnChangeText(items, `shots.${key}.team`, (val) => handleTeamChange(val, key))}
                             {textInput(items, `shots.${key}.shot`)}
+                            <MaterialIcons name='delete' size={24} color='red' onPress={(key) => deleteEnd(key)} />
                         </View>
                     </View>
                 );
@@ -80,7 +93,7 @@ const EditItemScreen = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
     editScreenContainer: {
-        alignSelf:"center",
+        width: '100%',
     },
     itemsText: {
         fontSize: 14,
@@ -92,18 +105,22 @@ const styles = StyleSheet.create({
     textInputRowContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap', 
+        alignSelf:"center",
     },
     textInput: {
+        alignSelf:"center",
         borderColor: 'grey',
         borderWidth: 0.4,
         paddingHorizontal: 0,
+        paddingHorizontal: 0,
+        paddingVertical: 0,
+        marginVertical: 0, 
         marginBottom: -1, 
-        borderRadius: 10, 
+        borderRadius: 0, 
         textAlign: "center",
         paddingHorizontal: 0,
         maxWidth: 100, 
         width: 100, 
-        paddingVertical: 0, 
         height: 40, 
         fontSize: 20, 
         padding: 0,

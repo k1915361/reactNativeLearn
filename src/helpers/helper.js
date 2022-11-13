@@ -14,7 +14,7 @@ export const textInput = (value, onChangeText, styles = '', placeholder = 'Type 
 
 export const setProperties = (obj, path, value) => {
     const [head, ...rest] = path.split('.')
-    
+
     return {
         ...obj,
         [head]: rest.length
@@ -22,6 +22,8 @@ export const setProperties = (obj, path, value) => {
         : value
     }
 }
+
+export const keys = (obj) => Object.keys(obj);
 
 export const jsnstringify = (obj) => JSON.stringify(obj); 
 
