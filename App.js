@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AddCardScreen from './src/screens/AddCardScreen';
 import ListCardScreen from './src/screens/ListCardScreen';
 import AddItemScreen from './src/screens/AddItemScreen';
-import AddShotScreen from './src/screens/AddShotScreen';
+import AddShotScreen from './src/screens/AddEndScreen';
 import ListItemScreen from './src/screens/ListItemScreen';
 import ViewItemScreen from './src/screens/ViewItemScreen';
 import EditItemScreen from './src/screens/EditItemScreen';

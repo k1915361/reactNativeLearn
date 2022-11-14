@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ItemContext from "../contexts/ItemContext";
+import { jsnstringify } from "../helpers/helper";
 
 const ListCardScreen = ({navigation}) => {
     const { state, remove, update } = useContext(ItemContext);
@@ -24,10 +25,10 @@ const ListCardScreen = ({navigation}) => {
         update(card.id, card);
     }
 
+    const testRender = () => <Text>Test: {state[0]?.id} {state[0]?.teamA?.player1?.name} {state[0]?.shots[0]?.shot}</Text>;
 
     return (
         <View>
-            <Text>Test: {state[0]?.id} {state[0]?.teamA?.player1?.name} {state[0]?.shots[0]?.shot}</Text>
             <FlatList
                 data={state} 
                 keyExtractor={(e) => e.id}

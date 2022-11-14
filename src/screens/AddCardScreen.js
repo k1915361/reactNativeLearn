@@ -60,7 +60,7 @@ const AddCardScreen = ({navigation, route}) => {
                 create(card.competitionName, card, () => navigation.pop());
             }} />
             <Text> {'\n'}</Text>
-            <Button title='Create Test Card' onPress={() => {
+            <Button title='Create Sample Card' onPress={() => {
                 create(testCard.competitionName, testCard, () => navigation.pop());
             }} />
         </View>

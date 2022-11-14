@@ -4,7 +4,7 @@ const ListItem = ({image, name}) => {
     return (
         <View style={styles.itemContainer} >
             <Text style={styles.nameText}>{name} </Text>
-            <Image source={ image } style={styles.img}/>
+            <Image source={{uri: image}} style={styles.img}/>
         </View>
     )
 }

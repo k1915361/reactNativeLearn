@@ -15,7 +15,7 @@ const CameraScreen = ({ navigation, onSetImage }) => {
             const photo = await camera.takePictureAsync();
             await createAsset(photo.uri);
             onSetImage(photo.uri);
-            // navigation.pop();            
+            navigation.pop();            
             // navigation.navigate('Photo', { 
             //     uri: photo.uri,
             //     onSetImage: (uri) => onSetImage(uri)
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         flexDirection: 'row-reverse',
         alignItems: 'flex-end',
+        // height: 300,
     },
     buttonStyle: {
         flex: 0.1,
@@ -81,7 +82,8 @@ const styles = StyleSheet.create({
     textStyle: {
         fontSize: 24,
         marginBottom: 15,
-        color: 'yellow',
+        color: 'white',
+        shadowColor:'black',
     },
 });
 

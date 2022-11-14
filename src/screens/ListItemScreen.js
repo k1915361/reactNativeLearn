@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
-import { StyleSheet, View, Text, FlatList, Pressable, ScrollView, Image, Button } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View, Text, Pressable, Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { jsnstringify, keys } from "../helpers/helper";
-import ViewImageScreen from "./ViewImageScreen";
-import NavButton from "../components/NavButton";
+import ViewEndScreen from "./ViewEndScreen";
 
 const ListViewScreen = ({navigation, route}) => {
     const { id, competitionName, rinkNumber, teamA, teamB, date, handleUpdate, shots: shotss } = route.params;
@@ -15,147 +14,102 @@ const ListViewScreen = ({navigation, route}) => {
         const newShots = {...shots, [keys(shots).length]: {...shot}};
         setShots(newShots);        
         handleUpdate({...route.params, shots: {...newShots || {}}});            
-    }
+    };
     
     const handleEditShot = (value) => {
         const newShots = {...shots, value};
         setShots(newShots); 
         handleUpdate({...route.params, shots: {...newShots || {}}});            
-    }
+    };
 
-    const playerRowRenderer = (id) => <Text>
-        {getName(teamA, (`player${id}`))} {id} {getName(teamB, (`player${id}`))}
+    const playerRowRenderer = (id) => <Text style={styles.informationText}>
+        {getName(teamA, (`player${id}`))} | {id} | {getName(teamB, (`player${id}`))}
     </Text>; 
 
-    const getNavButton = (screenName, params) => <NavButton screenName={screenName} navigation={navigation} params={params} />
+    const getImageRenderer = (image) => <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} />
 
-    const endRowRenderer = (end,shotA,shotB,image) => 
-        <Text style={styles.endText}> 
-            {end} 
-            <Text style={styles.shotText}>
-                {shotA}:{shotB}
-            </Text>
-            {image && getNavButton('View Image', {image: image} )}
-            {image && getImageRenderer(image)}
-        </Text>;
-
-    const getImageRenderer = (image) => <Image style={styles.thumbnailStyle} source={{ uri:image }} resizeMode='cover' />
-
-    const getShotData = (obj) => {
-        const shot = obj.shot;
-        const team = obj.team;
-        const shotA = team === 'teamA' ? shot : 0;
-        const shotB = shotA ? 0 : shot;
-        return { shotA, shotB };
-    }; 
-
-    const getEndNumber = (key) => Number(key)+1;
-
-    const getEndImageByKey = (key) => shots[key]?.image || '';
-
-    const shotsRenderer = () => {
-        return keys(shots)?.map(key => {
-            const { shotA, shotB } = getShotData(shots[key]);
-            return endRowRenderer(getEndNumber(key), shotA, shotB, getEndImageByKey(key));
-        });
-    };
-    
     const getShotsTotal = () => {
-        let totalA = 0;
-        let totalB = 0;
-        Object.keys(shots).map(key => {
-            const shot = shots[key].shot;
-            const team = shots[key].team;
-            team === 'teamA' ? totalA += parseInt(shot) : totalB += parseInt(shot);
+        let totalA = 0, totalB = 0;
+        keys(shots).map(key => {
+            shots[key].team === 'teamA' ? 
+                totalA += parseInt(shots[key].shot) : 
+                totalB += parseInt(shots[key].shot);
         });
         return {totalA, totalB};
     };
 
+    const getSum = (obj) => obj.reduce((acc, val) => acc + val, 0);
+
     const {totalA, totalB} = getShotsTotal();
 
     return (
-         <ScrollView style={styles.viewContainer}>  
-            <View style={styles.itemContainer}>
-                <Text style={''}>{jsnstringify()}</Text>
-                <Text style={''}>Competition:  
-                    <Text style={styles.titleText}> {competitionName} </Text>
+        <View style={styles.itemContainer}>
+            <Text style={''}>Competition:  
+                <Text style={styles.informationText}> {competitionName} </Text>
+            </Text>
+            <Text style={styles.dateText}>
+                Date: {new Date(date).toLocaleDateString()} 
+            </Text>
+            <Text style={''}>
+                Rink No: <Text style={styles.informationText}>{rinkNumber} </Text>
+            </Text>
+            <Text style={styles.informationText}>
+                {teamA?.name} vs {teamB?.name}</Text>
+            {[1,2,3,4].map(i => playerRowRenderer(i))}
+            <ViewEndScreen shots={shots} />
+            <Text style={''}>Total: <Text style={styles.totalText}>{totalA}:{totalB}</Text> </Text>
+            <Text style={''}></Text>
+            <Pressable 
+                onPress={() => navigation.navigate('AddShot', {
+                teamAname: teamA?.name,
+                teamBname: teamB?.name,
+                onAddShot: (shot) => handleAddShot(shot),
+            })}>
+                <Text style={styles.button}>
+                    <Text style={styles.titleText}> Add Shot </Text>
+                    <MaterialIcons name='add' size={24} color='black' />  
                 </Text>
-                <Text style={styles.dateText}>
-                    Date: {new Date(date).toLocaleDateString()}      Rink No: {rinkNumber} 
-                </Text>
-                <Text style={styles.text}>
-                    {teamA?.name} vs {teamB?.name}</Text>
-                {[1,2,3,4].map(i => playerRowRenderer(i))}
-                <Text style={''}> Ends: </Text> 
-                {shotsRenderer()}    
-                <Text style={''}> {jsnstringify()} </Text> 
-                <Text style={''}>Total: <Text style={styles.totalText}>{totalA}:{totalB}</Text> </Text>
-                <Text style={''}></Text>
-                <Pressable 
-                    onPress={() => navigation.navigate('AddShot', {
-                    teamAname: teamA?.name,
-                    teamBname: teamB?.name,
-                    onAddShot: (team, val) => handleAddShot(team, val),
-                })}>
-                    <Text style={styles.button}>
-                        <Text style={styles.titleText}> Add Shot </Text>
-                        <MaterialIcons name='add' size={24} color='black' />  
-                    </Text>
-                </Pressable>
-                <Pressable 
-                    onPress={() => navigation.navigate('EditItem', {
+            </Pressable>
+            <Pressable 
+                onPress={() => navigation.navigate('EditItem', {
+                    navigation: navigation,
                     items: {...route.params},
                     onEditShot: (val) => handleEditShot(val),
-                })}>
-                    <Text style={styles.button}>
-                        <Text style={styles.editText}> Edit Items </Text>
-                        <MaterialIcons name='edit' size={24} color='black' />  
-                    </Text>
-                </Pressable>
-            </View> 
-        </ScrollView>
+            })}>
+                <Text style={styles.button}>
+                    <Text style={styles.editText}> Edit Items </Text>
+                    <MaterialIcons name='edit' size={24} color='black' />  
+                </Text>
+            </Pressable>
+        </View> 
     );
 };
 
 const styles = StyleSheet.create({
-    viewContainer: {
-        bottom: 0,
-        left:0,
-        right:0,
-    },
-    listContainer: {
-    },
     thumbnailStyle: {
-        width: 60,
         height: 60,
-        scale: 0.01,
+        width: 60,
+        flex: 1,
     },
     itemContainer: {
+        flex: 1,
         fontSize: 50,
-        marginTop: 15,
+        top: 0,
+        marginTop: 0,
         padding: 15,
         borderBottomWidth: 1,
         alignItems: 'center',
         maxWidth: '100%',
     },
-    dateContainer: {
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
     dateText: {
         fontSize: 16,
     },
-    defaultText: {
-        fontSize: 14,
-    },
-    endText: {
-        fontSize: 8,
-    },
-    shotText: {
-        fontSize: 20,
+    informationText: {
+        fontSize: 30,
     },
     totalText: {
-        fontSize: 30,
+        fontSize: 40,
+        fontWeight: 'bold',
     },
     editText: {
         fontSize: 16,
@@ -172,41 +126,6 @@ const styles = StyleSheet.create({
         marginVertical: 3,
         color:'black',
     },
-    addItemText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
 });
 
 export default ListViewScreen;
-
-const goBackCardsScreen = () => {
-    navigation.setOptions({
-        headerLeft: ()=> 
-            <Pressable onPress={() => navigation.navigate('ListCard', {callback: null})} 
-                style={styles.viewAllCardsButton} >
-                <Text style={styles.viewAllCardsText}> 
-                    <MaterialIcons name='arrow-back' size={24} color='black' /> 
-                    go back 
-                </Text>
-            </Pressable>
-    });
-};
-
-let unused = () => <Pressable onPress={() => navigation.navigate('ViewItem', {
-    id: item.id,
-    title: item.title,
-    content: item.content,
-    date: item.date.toUTCString()
-})}>
-</Pressable>
-
-unused = () => <View style={styles.listContainer} >
-    <FlatList
-        data={{}}
-        keyExtractor={(e) => e.id.toString()}
-        renderItem={({item}) => {
-            return('');
-        }}
-    />
-</View>

@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import ItemContext from "../contexts/ItemContext";
 import { get, keys, setProperties } from '../helpers/helper';
 import { MaterialIcons } from '@expo/vector-icons';
+import EditEndScreen from "./EditEndsScreen";
+import TextInput from "../components/TextInput";
+import CameraScreen from "./CameraScreen";
 
 const EditItemScreen = ({navigation, route}) => {
     const { id, shots } = route.params.items;
@@ -10,102 +13,92 @@ const EditItemScreen = ({navigation, route}) => {
     const {state, update} = useContext(ItemContext);
     const currentEntry = state.find((e) => e.id ===id);
     const [items, setItems] = useState(route.params.items);
+    const [image, setImage] = useState('');
+
     
-    const textInputRender = (value, onChangeText, style = styles.textInput, placeholder = 'Type Here') => <TextInput 
-        style={style} placeholder={placeholder} 
-        value={value} onChangeText={onChangeText}
+    const updateItem = (path, value) => setItems(setProperties(items, path, value));
+
+    const textInputObject = (obj, path, onChangeText, placeholder, key, style) => 
+        <TextInput 
+            value={String(get(obj, path))} 
+            onChangeText={onChangeText || (val => updateItem(path, val))}
+            style={style} 
+            placeholder={placeholder} 
+            key={key}
     />;  
 
-    const textInput = (obj, path, style) => 
-         textInputRender(
-            String(get(obj, path)), 
-            val => setItems(setProperties(obj, path, val)),
-            style
-    ); 
-    
-    const textInputOnChangeTextByObjectPath = (obj, path, onChangeText, style) => 
-         textInputRender(
-            String(get(obj, path)), 
-            onChangeText,
-            style
-    ); 
-    
-    const textInputOnChangeText = (value, onChangeText) => 
-         textInputRender(
-            value, 
-            onChangeText
-    ); 
-
-    const getTeamName = (team) => items?.[team === 'teamA' ? 'teamA' : 'teamB']?.name;
-
-    const handleTeamChange = (val, key) => 
-        setItems(
-            setProperties(items, 
-                `shots.${key}.team`, 
-                val.includes('teamA') ? 'teamB': 'teamA' )
-    ); 
-
-    const deleteObjectProperty = (key) => delete items.shots[key];
-
-    const deleteEnd2 = (items) => setItems(items);
-    
-    const deleteEnd = (key) => {
-        deleteObjectProperty(key)
-        setItems(items);
-    }
-
-    const getShotEndTeamName = (key) => getTeamName(items.shots[key].team);
+    const textInput = (path, onChangeText, placeholder, key, style) => textInputObject(items, path, onChangeText, placeholder, key, style); 
 
     return (
-        <ScrollView style={styles.editScreenContainer}>
-            <Text>{ }</Text>
-            <Text style={styles.textLabel}>Competition Name:</Text>
-            {textInput(items, 'competitionName')}
-            <Text style={styles.textLabel}>Rink Number:</Text>
-            {textInput(items, 'rinkNumber')}
-            <Text style={styles.textLabel}>Team Name:</Text>
-            <View style={styles.textInputRowContainer}>
-                {textInput(items, 'teamA.name')}
-                {textInput(items, 'teamB.name')}
-            </View>
-            <Text style={styles.textLabel}>Players:</Text>
-            <View style={styles.textInputRowContainer}>
-                {['A','B'].map(team => 
-                    <View style={''}>
-                        {[1,2,3,4].map(num => 
-                            textInput(items, `team${team}.player${num}.name`)
-                        )}
-                    </View>
-                )}
-            </View>
-            <Text style={styles.textLabel}>Ends | TeamName | Score: </Text>
-            {keys(items.shots).map(key => {
-                return (
-                    <View>
-                        <View style={styles.textInputRowContainer}>
-                            <Text>{Number(key)+1} </Text>
-                            {textInputOnChangeTextByObjectPath(items, `shots.${key}.team`, (val) => handleTeamChange(val, key))}
-                            <Text> {getShotEndTeamName(key)}</Text>
-                            {textInput(items, `shots.${key}.shot`)}
-                            <MaterialIcons name='delete' size={24} color='red' onPress={() => deleteEnd(key)} />
+        <View style={styles.editScreenContainer}>
+                <View>
+            <ScrollView style={styles.scrollViewContainer}>
+                {image && <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} /> }
+                <Text style={styles.textLabel}>{image}</Text>
+                <Text style={styles.textLabel}>Competition Name:</Text>
+                {textInput('competitionName')}
+                <Text style={styles.textLabel}>Rink Number:</Text>
+                {textInput('rinkNumber')}
+                <Text style={styles.textLabel}>Team Name:</Text>
+                <View style={styles.textInputRowContainer}>
+                    {textInput('teamA.name')}
+                    {textInput('teamB.name')}
+                </View>
+                <Text style={styles.textLabel}>teamA | teamB</Text>
+                <Text style={styles.textLabel}>Players:</Text>
+                <View style={styles.textInputRowContainer}>
+                    {['A','B'].map(team => 
+                        <View key={team} style={''}>
+                            {[1,2,3,4].map(num => 
+                                textInput(`team${team}.player${num}.name`,'','',num) 
+                            )}
                         </View>
-                    </View>
-                );
-            })}
-                <Button title='Save Edit' 
-                    onPress={() => {
-                        update(currentEntry.id, items, () => navigation.popToTop());
-                }} />
-        </ScrollView>
+                    )}
+                </View>
+                <Text style={styles.textLabel}>EndNo | TeamName | Score: </Text>
+                {keys(items.shots).map(key => 
+                    <EditEndScreen 
+                        key={key} 
+                        keyy={key} 
+                        shots={shots}
+                        item={items[key]} 
+                        items={items} 
+                        image={image} 
+                        textInput={textInput} 
+                        textInputObject={textInputObject} 
+                        setItems={setItems} 
+                        setImage={setImage} 
+                        navigation={navigation}
+                    />
+                )}
+            </ScrollView>
+                </View>
+            <Button title='Save Edit' 
+                style={styles.button}
+                onPress={() => {
+                    update(currentEntry.id, items, () => navigation.popToTop());
+            }} />
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     editScreenContainer: {
+        top: 0,
         width: '100%',
+        flex: 1,
+        bottom: 30,
+    },
+    scrollViewContainer: {
+        // width: '100%',
+        // height: '90%',
     },
     itemsText: {
         fontSize: 14,
+    },
+    button: {
+        bottom: 0,
+        marginBottom: 0,
     },
     textLabel: {
         padding: 0,
@@ -124,7 +117,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0,
         paddingVertical: 0,
         marginVertical: 0, 
-        marginBottom: -1, 
+        marginBottom: 0, 
         borderRadius: 0, 
         textAlign: "center",
         paddingHorizontal: 0,

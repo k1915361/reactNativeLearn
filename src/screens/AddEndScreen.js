@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 const AddShotScreen = ({navigation, route}) => {
     const {teamAname, teamBname, onAddShot } = route.params;    
     const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState('');
     const [shotA, setShotA] = useState(0);
     const [shotB, setShotB] = useState(0);
     
@@ -37,16 +37,14 @@ const AddShotScreen = ({navigation, route}) => {
     return (
         <View style={styles.container} >
             <Text style={styles.textLabel}>getTeamName</Text>
-            {!image &&
-                <View>
-                    <Text style={styles.textLabel}>Take a new snap:</Text>
-                    <CameraScreen navigation={navigation} 
-                        onSetImage={(uri) => onSetImage(uri)} 
-                    />
-                </View>
-            }
+            <View>
+                <Text style={styles.textLabel}>Take a new snap:</Text>
+                <CameraScreen navigation={navigation} 
+                    onSetImage={(uri) => onSetImage(uri)} 
+                />
+            </View>
             <Text style={styles.textLabel}></Text>
-            <Button title="Or Pick an image from folder" onPress={pickImage} />
+            <Button title="Pick an image" onPress={pickImage} />
             {image && <Image style={styles.imageStyle2} source={{ uri: image }} />}
             {image && <Text style={styles.textLabel}>{image}</Text>}
             <Text style={styles.textLabel}></Text>
@@ -80,9 +78,9 @@ const AddShotScreen = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
     container: {
-        position: "absolute",
-        top: '20%',
-        alignSelf:"center",
+        // position: "absolute",
+        // top: '20%',
+        // alignSelf:"center",
     },
     textLabel: {
         fontSize: 20,
