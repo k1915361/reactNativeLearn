@@ -13,6 +13,8 @@ import { ItemProvider } from './src/contexts/ItemContext';
 import CameraScreen from './src/screens/CameraScreen';
 import CameraPhotoScreen from './src/screens/CameraPhotoScreen';
 import ViewImageScreen from './src/screens/ViewImageScreen';
+import SearchApiScreen from './src/screens/SearchAPIScreen';
+import SearchApiItemScreen from './src/screens/SearchApiItemScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,16 @@ const App = () => {
     <ItemProvider>
         <NavigationContainer >
             <Stack.Navigator initialRouteName='ListCard' >
+                <Stack.Screen 
+                    name="SearchApiItem"
+                    component={SearchApiItemScreen}
+                    options={{ title: 'Item from API' }}
+                />
+                <Stack.Screen 
+                    name="SearchApi"
+                    component={SearchApiScreen}
+                    options={{ title: 'Search an API with HTTP' }}
+                />
                 <Stack.Screen 
                     name="ViewImage"
                     component={ViewImageScreen}

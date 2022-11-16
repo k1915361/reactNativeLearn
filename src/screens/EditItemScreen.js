@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Button, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import ItemContext from "../contexts/ItemContext";
-import { get, keys, setProperties } from '../helpers/helper';
+import { get, jsnstringify, keys, setProperties } from '../helpers/helper';
 import { MaterialIcons } from '@expo/vector-icons';
 import EditEndScreen from "./EditEndsScreen";
 import TextInput from "../components/TextInput";
@@ -29,50 +29,53 @@ const EditItemScreen = ({navigation, route}) => {
 
     const textInput = (path, onChangeText, placeholder, key, style) => textInputObject(items, path, onChangeText, placeholder, key, style); 
 
+    const getPlayerNamePath = (team, num) => `team${team}.player${num}.name`;
+
     return (
         <View style={styles.editScreenContainer}>
-                <View>
-            <ScrollView style={styles.scrollViewContainer}>
-                {image && <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} /> }
-                <Text style={styles.textLabel}>{image}</Text>
-                <Text style={styles.textLabel}>Competition Name:</Text>
-                {textInput('competitionName')}
-                <Text style={styles.textLabel}>Rink Number:</Text>
-                {textInput('rinkNumber')}
-                <Text style={styles.textLabel}>Team Name:</Text>
-                <View style={styles.textInputRowContainer}>
-                    {textInput('teamA.name')}
-                    {textInput('teamB.name')}
-                </View>
-                <Text style={styles.textLabel}>teamA | teamB</Text>
-                <Text style={styles.textLabel}>Players:</Text>
-                <View style={styles.textInputRowContainer}>
-                    {['A','B'].map(team => 
-                        <View key={team} style={''}>
-                            {[1,2,3,4].map(num => 
-                                textInput(`team${team}.player${num}.name`,'','',num) 
-                            )}
-                        </View>
+            <View>
+                <ScrollView style={styles.scrollViewContainer}>
+                    <Text>{jsnstringify(items.shots)} </Text>
+                    {image && <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} /> }
+                    {/* <Text style={styles.textLabel}>{}</Text> */}
+                    <Text style={styles.textLabel}>Competition Name:</Text>
+                    {textInput('competitionName')}
+                    <Text style={styles.textLabel}>Rink Number:</Text>
+                    {textInput('rinkNumber')}
+                    <Text style={styles.textLabel}>Team Name:</Text>
+                    <View style={styles.textInputRowContainer}>
+                        {textInput('teamA.name')}
+                        {textInput('teamB.name')}
+                    </View>
+                    <Text style={styles.textLabel}>teamA | teamB</Text>
+                    <Text style={styles.textLabel}>Players:</Text>
+                    <View style={styles.textInputRowContainer}>
+                        {['A','B'].map(team => 
+                            <View key={team} style={''}>
+                                {[1,2,3,4].map(num => 
+                                    textInput(`team${team}.player${num}.name`,'','',num) 
+                                )}
+                            </View>
+                        )}
+                    </View>
+                    <Text style={styles.textLabel}>EndNo | TeamName | Score: </Text>
+                    {keys(items.shots).map(key => 
+                        <EditEndScreen 
+                            key={key} 
+                            keyy={key} 
+                            shots={shots}
+                            end={items.shots[key]} 
+                            items={items} 
+                            image={image} 
+                            textInput={textInput} 
+                            textInputObject={textInputObject} 
+                            setItems={setItems} 
+                            setImage={setImage} 
+                            navigation={navigation}
+                        />
                     )}
-                </View>
-                <Text style={styles.textLabel}>EndNo | TeamName | Score: </Text>
-                {keys(items.shots).map(key => 
-                    <EditEndScreen 
-                        key={key} 
-                        keyy={key} 
-                        shots={shots}
-                        item={items[key]} 
-                        items={items} 
-                        image={image} 
-                        textInput={textInput} 
-                        textInputObject={textInputObject} 
-                        setItems={setItems} 
-                        setImage={setImage} 
-                        navigation={navigation}
-                    />
-                )}
-            </ScrollView>
-                </View>
+                </ScrollView>
+            </View>
             <Button title='Save Edit' 
                 style={styles.button}
                 onPress={() => {

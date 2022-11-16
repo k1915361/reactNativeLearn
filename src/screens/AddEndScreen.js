@@ -46,7 +46,7 @@ const AddShotScreen = ({navigation, route}) => {
             <Text style={styles.textLabel}></Text>
             <Button title="Pick an image" onPress={pickImage} />
             {image && <Image style={styles.imageStyle2} source={{ uri: image }} />}
-            {image && <Text style={styles.textLabel}>{image}</Text>}
+            {image && <Text style={styles.textLabel}>{image.substring(0,20)}</Text>}
             <Text style={styles.textLabel}></Text>
             <Text style={styles.textLabel}>Enter your shot:</Text>
             <View style={styles.textInputContainer}>

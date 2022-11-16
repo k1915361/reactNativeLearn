@@ -45,7 +45,7 @@ const CameraPhotoScreen = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             <Image style={styles.imageStyle} source={{ uri: uri }}/>
-            {image && <Text style={styles.textStyle}>{uri}</Text>}
+            {image && <Text style={styles.textStyle}>{uri.substring(0,20)}</Text>}
             {image && <Text style={styles.textStyle}>{jsnstringify(image)}</Text>}
             <Text style={styles.textStyle}></Text>
             <Text style={styles.textStyle}></Text>

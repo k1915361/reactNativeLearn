@@ -29,6 +29,13 @@ const ListCardScreen = ({navigation}) => {
 
     return (
         <View>
+            <Pressable onPress={() => navigation.navigate('SearchApi')} 
+                style={styles.viewAllCardsButton}
+                >
+                <Text style={styles.viewAllCardsText}> Go to Search 
+                    <MaterialIcons name='arrow-forward' size={24} color='black' />
+                </Text>
+            </Pressable>
             <FlatList
                 data={state} 
                 keyExtractor={(e) => e.id}
