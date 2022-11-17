@@ -1,7 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from "react";
-import { jsnstringify, setProperties } from "../helpers/helper";
+import { jsnstringify, pickImage, renderObj, setProperties } from "../helpers/helper";
 
 const EditEndScreen = ({navigation, items, image, shots, keyy: key, textInput, setItems, setImage}) => {
     const [end, setEnd] = useState(items && items.shots[key]);
@@ -47,24 +47,25 @@ const EditEndScreen = ({navigation, items, image, shots, keyy: key, textInput, s
     return(
         <View>
             <View style={styles.textInputRowContainer}>                
+                {renderObj(image)}
                 <Text>{Number(key)+1} </Text>
                 {textInput(`${endPath}.team`, (val) => handleTeamChange(val))}
                 <Text> {getEndTeamName()}</Text>
                 {textInput(`${endPath}.shot`)}
-                <MaterialIcons name='delete' size={24} color='red' onPress={() => deleteEnd(key)} />
+                <MaterialIcons name='delete' size={40} color='red' onPress={() => deleteEnd(key)} />
                 <Pressable style={styles.buttonStyle} onPress={() => {
                     navigation.navigate('Camera', {
                         navigation: navigation,
                         onSetImage: (uri) => {addEndImage(uri);} 
                     })
                 }}>
-                    <Text style={styles.textStyle}>
+                    {!image && <Text style={styles.textStyle}>
                         <MaterialIcons 
-                            name='camera' size={40} color='green' 
+                            name='camera' size={40} color='black' 
                             onPress={() => addEndImage(image)} 
-                        />
-                            Add Photo
-                        </Text>
+                            />
+                        Add Photo
+                    </Text>}
                 </Pressable>
             </View>
         </View>

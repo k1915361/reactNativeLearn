@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
+import { MaterialIcons } from '@expo/vector-icons';
+import { pickImage } from "../helpers/helper";
+// import * as ImagePicker from 'expo-image-picker';
 
 const CameraScreen = ({  route }) => {
     const [hasPermission, setHasPermission] = useState(null);
+    // const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
     const { navigation, onSetImage }= route.params;
     let camera;
     
@@ -46,6 +50,18 @@ const CameraScreen = ({  route }) => {
         setIsAccessMediaLocationEnabled(status === true);
     };
 
+    // const pickImage = async () => {
+    //     let result = await ImagePicker.launchImageLibraryAsync({
+    //         mediaTypes: ImagePicker.MediaTypeOptions.All,
+    //         allowsEditing: false,
+    //         aspect: [4, 3],
+    //         quality: 1,
+    //     });    
+    //     if (!result.cancelled) {
+    //         onSetImage(result.uri);
+    //     }    
+    // };  
+    
     if (hasPermission === null) {
         return <Text>Awaiting Permission</Text>
     }
@@ -62,6 +78,7 @@ const CameraScreen = ({  route }) => {
                     <Text style={styles.textStyle}>Take a Picture!</Text>
                 </Pressable>
             </Camera>
+            <Button title="Or Pick an image from Album" onPress={async () => {onSetImage(await pickImage()); navigation.pop();} } />
         </View>
     );
 }

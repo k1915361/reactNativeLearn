@@ -20,7 +20,9 @@ const EditEndScreen = ({navigation}) => {
                         onSetImage: (uri) => addEndImageByKey(uri) 
                     })
                 }}>
-                    <Text style={styles.textStyle}><MaterialIcons name='edit' size={24} color='blue' onPress={() => addEndImageByKey(key, image)} />Edit</Text>
+                    <Text style={styles.textStyle}><MaterialIcons 
+                        name='edit' size={24} color='blue' 
+                        onPress={() => addEndImageByKey(key, image)} />Edit</Text>
                 </Pressable>
             </View>
         </View>

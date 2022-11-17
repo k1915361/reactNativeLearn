@@ -1,3 +1,5 @@
+import * as ImagePicker from 'expo-image-picker';
+
 import { Button, FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 export const head = ([h]) => h;
@@ -30,6 +32,18 @@ export const keys = (obj) => Object.keys(obj);
 export const jsnstringify = (obj) => JSON.stringify(obj); 
 
 export const typeOf = (obj) => typeof(obj);
+
+export const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 1,
+    });    
+    if (!result.cancelled) {
+        return result.uri;
+    }    
+};
 
 export const updateObjPropExperiment = (obj, path, val) =>{     
     path = path.split('.');

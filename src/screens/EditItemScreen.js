@@ -1,11 +1,10 @@
 import { useContext, useState } from "react";
 import { Button, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import ItemContext from "../contexts/ItemContext";
-import { get, jsnstringify, keys, renderObj, setProperties } from '../helpers/helper';
+import { get, keys, setProperties } from '../helpers/helper';
 import { MaterialIcons } from '@expo/vector-icons';
 import EditEndsScreen from "./EditEndsScreen";
 import TextInput from "../components/TextInput";
-import CameraScreen from "./CameraScreen";
 
 const EditItemScreen = ({navigation, route}) => {
     const { id, shots } = route.params.items;
@@ -63,7 +62,7 @@ const EditItemScreen = ({navigation, route}) => {
                             shots={shots}
                             end={items.shots[key]} 
                             items={items} 
-                            image={image} 
+                            image={items.shots.key?.image} 
                             textInput={textInput} 
                             textInputObject={textInputObject} 
                             setItems={setItems} 
