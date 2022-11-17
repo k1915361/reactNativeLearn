@@ -2,24 +2,20 @@ import { useState } from "react";
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { jsnstringify, keys } from "../helpers/helper";
-import ViewEndScreen from "./ViewEndScreen";
+import ViewEndsScreen from "./ViewEndsScreen";
 
 const ListViewScreen = ({navigation, route}) => {
-    const { id, competitionName, rinkNumber, teamA, teamB, date, handleUpdate, shots: shotss } = route.params;
-    const [shots, setShots] = useState(shotss || {});
+    const { id, competitionName, rinkNumber, teamA, teamB, date, handleUpdate, shots } = route.params;
 
     const getName = (team, player) => team?.[player]?.name;
     
     const handleAddShot = (shot) => {
-        const newShots = {...shots, [keys(shots).length]: {...shot}};
-        setShots(newShots);        
+        const newShots = {...shots, [keys(shots).length+1]: {...shot}};
         handleUpdate({...route.params, shots: {...newShots || {}}});            
-        console.log('test '+shot);
     };
     
     const handleEditShot = (value) => {
         const newShots = {...shots, value};
-        setShots(newShots); 
         handleUpdate({...route.params, shots: {...newShots || {}}});            
     };
 
@@ -57,7 +53,7 @@ const ListViewScreen = ({navigation, route}) => {
             <Text style={styles.informationText}>
                 {teamA?.name} vs {teamB?.name}</Text>
             {[1,2,3,4].map(i => playerRowRenderer(i))}
-            <ViewEndScreen shots={shots} navigation={navigation}/>
+            <ViewEndsScreen shots={shots} navigation={navigation}/>
             <Text style={''}>Total: <Text style={styles.totalText}>{totalA}:{totalB}</Text> </Text>
             <Text style={''}></Text>
             <Pressable 

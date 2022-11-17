@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { jsnstringify, keys } from "../helpers/helper";
 import NavButton from "../components/NavButton";
 
-const ViewEndScreen = ({navigation, shots}) => {
+const ViewEndsScreen = ({navigation, shots}) => {
 
     const getNavButton = (screenName, params) => <NavButton screenName={screenName} navigation={navigation} params={params} />;
 
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ViewEndScreen;
+export default ViewEndsScreen;

@@ -31,47 +31,45 @@ const EditItemScreen = ({navigation, route}) => {
 
     return (
         <View style={styles.editScreenContainer}>
-            <View>
-                <ScrollView style={styles.scrollViewContainer}>
-                    {image && <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} /> }
-                    <Text style={styles.textLabel}>Competition Name:</Text>
-                    {textInput('competitionName')}
-                    <Text style={styles.textLabel}>Rink Number:</Text>
-                    {textInput('rinkNumber')}
-                    <Text style={styles.textLabel}>Team Name:</Text>
-                    <View style={styles.textInputRowContainer}>
-                        {textInput('teamA.name')}
-                        {textInput('teamB.name')}
-                    </View>
-                    <Text style={styles.textLabel}>teamA | teamB</Text>
-                    <Text style={styles.textLabel}>Players:</Text>
-                    <View style={styles.textInputRowContainer}>
-                        {['A','B'].map(team => 
-                            <View> 
-                            {[1,2,3,4].map(num => 
-                                textInput(`team${team}.player${num}.name`) 
-                            )}
-                            </View>
+            <ScrollView style={styles.scrollViewContainer}>
+                {image && <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} /> }
+                <Text style={styles.textLabel}>Competition Name:</Text>
+                {textInput('competitionName')}
+                <Text style={styles.textLabel}>Rink Number:</Text>
+                {textInput('rinkNumber')}
+                <Text style={styles.textLabel}>Team Name:</Text>
+                <View style={styles.textInputRowContainer}>
+                    {textInput('teamA.name')}
+                    {textInput('teamB.name')}
+                </View>
+                <Text style={styles.textLabel}>teamA | teamB</Text>
+                <Text style={styles.textLabel}>Players:</Text>
+                <View style={styles.textInputRowContainer}>
+                    {['A','B'].map(team => 
+                        <View> 
+                        {[1,2,3,4].map(num => 
+                            textInput(`team${team}.player${num}.name`) 
                         )}
-                    </View>
-                    <Text style={styles.textLabel}>EndNo | TeamName | Score: </Text>
-                    {keys(items.shots).map(key => 
-                        <EditEndsScreen 
-                            key={key} 
-                            keyy={key} 
-                            shots={shots}
-                            end={items.shots[key]} 
-                            items={items} 
-                            image={items.shots.key?.image} 
-                            textInput={textInput} 
-                            textInputObject={textInputObject} 
-                            setItems={setItems} 
-                            setImage={setImage} 
-                            navigation={navigation}
-                        />
+                        </View>
                     )}
-                </ScrollView>
-            </View>
+                </View>
+                <Text style={styles.textLabel}>EndNo | TeamName | Score: </Text>
+                {keys(items.shots).map(key => 
+                    <EditEndsScreen 
+                        key={key} 
+                        keyy={key} 
+                        shots={shots}
+                        end={items.shots[key]} 
+                        items={items} 
+                        image={items.shots.key?.image} 
+                        textInput={textInput} 
+                        textInputObject={textInputObject} 
+                        setItems={setItems} 
+                        setImage={setImage} 
+                        navigation={navigation}
+                    />
+                )}
+            </ScrollView>
             <Button title='Save Edit' 
                 style={styles.button}
                 onPress={() => {

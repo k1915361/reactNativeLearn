@@ -80,7 +80,7 @@ const AddShotScreen = ({navigation, route}) => {
                 disabled={Number(shotA) === 0 && Number(shotB) === 0 && true}
                 onPress={() => {
                     onAddShot( {team: getTeam(), shot: parseInt(shotA || shotB), image: image});
-                    navigation.pop();
+                    navigation.popToTop();
             }} />
         </View>
     )
