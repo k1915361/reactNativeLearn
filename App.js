@@ -13,7 +13,7 @@ import { ItemProvider } from './src/contexts/ItemContext';
 import CameraScreen from './src/screens/CameraScreen';
 import CameraPhotoScreen from './src/screens/CameraPhotoScreen';
 import ViewImageScreen from './src/screens/ViewImageScreen';
-import SearchApiScreen from './src/screens/SearchAPIScreen';
+import SearchApiScreen from './src/screens/SearchApiScreen';
 import SearchApiItemScreen from './src/screens/SearchApiItemScreen';
 
 const Stack = createNativeStackNavigator();

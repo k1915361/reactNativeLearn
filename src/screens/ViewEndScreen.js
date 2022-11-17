@@ -5,6 +5,7 @@ import { jsnstringify, keys } from "../helpers/helper";
 import NavButton from "../components/NavButton";
 
 const ViewEndScreen = ({navigation, shots}) => {
+
     const getNavButton = (screenName, params) => <NavButton screenName={screenName} navigation={navigation} params={params} />;
 
     const getImageRenderer = (image) => <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} /> 
@@ -28,7 +29,7 @@ const ViewEndScreen = ({navigation, shots}) => {
             <View style={styles.itemContainer}>
                 <Text style={''}>Ends:</Text> 
                 {keys(shots)?.map(key => 
-                    <Text style={styles.endText}> 
+                    <Text style={styles.endText} key={key}> 
                         {getEndNumber(key)} <Text style={styles.shotText}>{getTeamAScore(key)}:{getTeamBScore(key)} </Text>
                         {getEndImageByKey(key) && getNavButton('View Image', {image: getEndImageByKey(key)} )}
                     </Text>

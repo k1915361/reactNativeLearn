@@ -5,8 +5,8 @@ import { jsnstringify, setProperties } from "../helpers/helper";
 
 const EditEndScreen = ({navigation, items, image, shots, keyy: key, textInput, setItems, setImage}) => {
     const [end, setEnd] = useState(items && items.shots[key]);
-    const [endPath, setEndPath] = useState(key && `shots.${key}`);
-    // const endPath = `shots.${key}`;
+    // const [endPath, setEndPath] = useState(key && `shots.${key}`);
+    const endPath = `shots.${key}`;
     // const end = items.shots[key];
     const teamName = {teamA: items.teamA.name,teamB: items.teamA.name};
 
@@ -32,23 +32,21 @@ const EditEndScreen = ({navigation, items, image, shots, keyy: key, textInput, s
     const getTeamAName = () => end.teamA.name;
     const getTeamBName = () => end.teamB.name;
     
-    const addEndImageByKey = (key, image) => updateItem(`${endPath}.image`, image);
-    
     const addEndImage = (image) => updateItem(`${endPath}.image`, image);
     
     const addEndImage2 = (image) => end.image = image;
-    
-    const addEndImageByKey3 = (key, image) => items.shots[key].image = image;
 
-    const handleTeamChange = (val, key) => updateItem(  `shots.${key}.team`, 
+    const getTeamChange = (val) => val.includes('teamA') ? 'teamB': 'teamA';
+
+    const handleTeamChange = (val) => updateItem(  `${endPath}.team`, 
         val.includes('teamA') ? 'teamB': 'teamA' 
     ); 
 
+    const objectRenderTest = (obj) => <Text> {jsnstringify(obj)} </Text>;
+
     return(
         <View>
-            <View style={styles.textInputRowContainer}>
-                {/* <Text>-t- {jsnstringify(end.team)} </Text> */}
-                <Text>-t- {jsnstringify(items.shots[key])} --</Text>
+            <View style={styles.textInputRowContainer}>                
                 <Text>{Number(key)+1} </Text>
                 {textInput(`${endPath}.team`, (val) => handleTeamChange(val))}
                 <Text> {getEndTeamName()}</Text>
@@ -56,16 +54,16 @@ const EditEndScreen = ({navigation, items, image, shots, keyy: key, textInput, s
                 <MaterialIcons name='delete' size={24} color='red' onPress={() => deleteEnd(key)} />
                 <Pressable style={styles.buttonStyle} onPress={() => {
                     navigation.navigate('Camera', {
-                        // navigation: navigation,
-                        onSetImage: (uri) => {addEndImage(uri); setImage(uri);} 
+                        navigation: navigation,
+                        onSetImage: (uri) => {addEndImage(uri);} 
                     })
                 }}>
                     <Text style={styles.textStyle}>
                         <MaterialIcons 
-                            name='edit' size={24} color='blue' 
-                            onPress={() => addEndImageByKey(key, image)} 
+                            name='camera' size={40} color='green' 
+                            onPress={() => addEndImage(image)} 
                         />
-                            Edit
+                            Add Photo
                         </Text>
                 </Pressable>
             </View>

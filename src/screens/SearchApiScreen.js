@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import useSearchResults from "../hooks/useSearchResults";

@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { Button, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import ItemContext from "../contexts/ItemContext";
-import { get, jsnstringify, keys, setProperties } from '../helpers/helper';
+import { get, jsnstringify, keys, renderObj, setProperties } from '../helpers/helper';
 import { MaterialIcons } from '@expo/vector-icons';
-import EditEndScreen from "./EditEndsScreen";
+import EditEndsScreen from "./EditEndsScreen";
 import TextInput from "../components/TextInput";
 import CameraScreen from "./CameraScreen";
 
@@ -18,16 +18,15 @@ const EditItemScreen = ({navigation, route}) => {
     
     const updateItem = (path, value) => setItems(setProperties(items, path, value));
 
-    const textInputObject = (obj, path, onChangeText, placeholder, key, style) => 
+    const textInputObject = (obj, path, onChangeText, placeholder, style) => 
         <TextInput 
             value={String(get(obj, path))} 
             onChangeText={onChangeText || (val => updateItem(path, val))}
             style={style} 
             placeholder={placeholder} 
-            key={key}
     />;  
 
-    const textInput = (path, onChangeText, placeholder, key, style) => textInputObject(items, path, onChangeText, placeholder, key, style); 
+    const textInput = (path, onChangeText, placeholder, style) => textInputObject(items, path, onChangeText, placeholder, style); 
 
     const getPlayerNamePath = (team, num) => `team${team}.player${num}.name`;
 
@@ -35,9 +34,7 @@ const EditItemScreen = ({navigation, route}) => {
         <View style={styles.editScreenContainer}>
             <View>
                 <ScrollView style={styles.scrollViewContainer}>
-                    <Text>{jsnstringify(items.shots)} </Text>
                     {image && <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} /> }
-                    {/* <Text style={styles.textLabel}>{}</Text> */}
                     <Text style={styles.textLabel}>Competition Name:</Text>
                     {textInput('competitionName')}
                     <Text style={styles.textLabel}>Rink Number:</Text>
@@ -51,16 +48,16 @@ const EditItemScreen = ({navigation, route}) => {
                     <Text style={styles.textLabel}>Players:</Text>
                     <View style={styles.textInputRowContainer}>
                         {['A','B'].map(team => 
-                            <View key={team} style={''}>
-                                {[1,2,3,4].map(num => 
-                                    textInput(`team${team}.player${num}.name`,'','',num) 
-                                )}
+                            <View> 
+                            {[1,2,3,4].map(num => 
+                                textInput(`team${team}.player${num}.name`) 
+                            )}
                             </View>
                         )}
                     </View>
                     <Text style={styles.textLabel}>EndNo | TeamName | Score: </Text>
                     {keys(items.shots).map(key => 
-                        <EditEndScreen 
+                        <EditEndsScreen 
                             key={key} 
                             keyy={key} 
                             shots={shots}

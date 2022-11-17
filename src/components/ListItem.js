@@ -1,8 +1,8 @@
 import { StyleSheet, View,Text, Image } from "react-native";
 
-const ListItem = ({image, name}) => {    
+const ListItem = ({image, name, key}) => {    
     return (
-        <View style={styles.itemContainer} >
+        <View style={styles.itemContainer} key={key}>
             <Text style={styles.nameText}>{name} </Text>
             <Image source={{uri: image}} style={styles.img}/>
         </View>

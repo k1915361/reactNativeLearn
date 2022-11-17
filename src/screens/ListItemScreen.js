@@ -14,6 +14,7 @@ const ListViewScreen = ({navigation, route}) => {
         const newShots = {...shots, [keys(shots).length]: {...shot}};
         setShots(newShots);        
         handleUpdate({...route.params, shots: {...newShots || {}}});            
+        console.log('test '+shot);
     };
     
     const handleEditShot = (value) => {
@@ -56,14 +57,14 @@ const ListViewScreen = ({navigation, route}) => {
             <Text style={styles.informationText}>
                 {teamA?.name} vs {teamB?.name}</Text>
             {[1,2,3,4].map(i => playerRowRenderer(i))}
-            <ViewEndScreen shots={shots} />
+            <ViewEndScreen shots={shots} navigation={navigation}/>
             <Text style={''}>Total: <Text style={styles.totalText}>{totalA}:{totalB}</Text> </Text>
             <Text style={''}></Text>
             <Pressable 
                 onPress={() => navigation.navigate('AddShot', {
-                teamAname: teamA?.name,
-                teamBname: teamB?.name,
-                onAddShot: (shot) => handleAddShot(shot),
+                    teamAname: teamA?.name,
+                    teamBname: teamB?.name,
+                    onAddShot: (shot) => handleAddShot(shot),
             })}>
                 <Text style={styles.button}>
                     <Text style={styles.titleText}> Add Shot </Text>

@@ -1,6 +1,7 @@
 import { Button, StyleSheet } from 'react-native';
 
 const NavButton = ({ screenName, navigation, params }) => {
+    
     return (
         <Button 
             title={`${screenName}`} 

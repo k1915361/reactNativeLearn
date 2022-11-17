@@ -50,8 +50,7 @@ const ListCardScreen = ({navigation}) => {
                             teamB: item.teamB,
                             shots: item.shots,
                             date: new Date(item.date).toUTCString(),
-                            handleUpdate: (id, title, content, date) => 
-                                handleUpdate(id, title, content, date),
+                            handleUpdate: (id, title, content, date) => handleUpdate(id, title, content, date),
                         })}>
                             <View style={styles.itemContainer}>
                                 <View style={styles.dateContainer}>

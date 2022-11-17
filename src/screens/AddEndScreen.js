@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, Image, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import CameraScreen from "./CameraScreen";
 import * as ImagePicker from 'expo-image-picker';
+import { MaterialIcons } from '@expo/vector-icons';
+import { renderObj } from "../helpers/helper";
 
 const AddShotScreen = ({navigation, route}) => {
     const {teamAname, teamBname, onAddShot } = route.params;    
@@ -37,16 +39,24 @@ const AddShotScreen = ({navigation, route}) => {
     return (
         <View style={styles.container} >
             <Text style={styles.textLabel}>getTeamName</Text>
+                <Pressable 
+                    onPress={() => navigation.navigate('Camera', {
+                        navigation: navigation,
+                        onSetImage: async (uri) => setImage(await uri),
+                    })}
+                    style={styles.buttonStyle}
+                >
+                    <Text style={styles.textStyle}>
+                        Take a Snap 
+                        <MaterialIcons name='camera' size={24} color='black' />
+                    </Text>
+                </Pressable>
             <View>
-                <Text style={styles.textLabel}>Take a new snap:</Text>
-                <CameraScreen navigation={navigation} 
-                    onSetImage={(uri) => onSetImage(uri)} 
-                />
             </View>
             <Text style={styles.textLabel}></Text>
             <Button title="Pick an image" onPress={pickImage} />
             {image && <Image style={styles.imageStyle2} source={{ uri: image }} />}
-            {image && <Text style={styles.textLabel}>{image.substring(0,20)}</Text>}
+            {image && renderObj(image.substring(0,300))}
             <Text style={styles.textLabel}></Text>
             <Text style={styles.textLabel}>Enter your shot:</Text>
             <View style={styles.textInputContainer}>
@@ -81,6 +91,7 @@ const styles = StyleSheet.create({
         // position: "absolute",
         // top: '20%',
         // alignSelf:"center",
+        flex:1,
     },
     textLabel: {
         fontSize: 20,
@@ -88,6 +99,13 @@ const styles = StyleSheet.create({
     textInputContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
+    },
+    textStyle: {
+        fontSize: 30,
+    },
+    buttonStyle: {
+        flex: 0.1,
+        alignItems: 'center',
     },
     textInput: {
         borderColor: 'black',

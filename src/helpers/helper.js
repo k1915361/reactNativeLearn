@@ -23,6 +23,8 @@ export const setProperties = (obj, path, value) => {
     }
 }
 
+export const renderObj = (obj) => <Text>{jsnstringify(obj)}</Text>;
+
 export const keys = (obj) => Object.keys(obj);
 
 export const jsnstringify = (obj) => JSON.stringify(obj); 

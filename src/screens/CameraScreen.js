@@ -4,8 +4,9 @@ import { Camera } from "expo-camera";
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
 
-const CameraScreen = ({ navigation, onSetImage }) => {
+const CameraScreen = ({  route }) => {
     const [hasPermission, setHasPermission] = useState(null);
+    const { navigation, onSetImage }= route.params;
     let camera;
     
     useEffect(() => { getCameraPermission(); }, []);
@@ -13,7 +14,8 @@ const CameraScreen = ({ navigation, onSetImage }) => {
     const getPicture = async () => {
         if (camera) {
             const photo = await camera.takePictureAsync();
-            await createAsset(photo.uri);
+            const result = await createAsset(photo.uri);
+            
             onSetImage(photo.uri);
             navigation.pop();            
             // navigation.navigate('Photo', { 
