@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { renderObj } from "../helpers/helper";
 
 const AddShotScreen = ({navigation, route}) => {
-    const { onAddShot, navigateListItem, item } = route.params;    
+    const { onAddShot, item } = route.params;    
     const {teamA, teamB} = item;
     const teamAname = teamA.name;
     const teamBname = teamB.name;

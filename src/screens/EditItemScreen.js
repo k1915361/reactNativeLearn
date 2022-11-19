@@ -14,7 +14,8 @@ const EditItemScreen = ({navigation, route}) => {
     const [image, setImage] = useState('');
     const { id } = items;
     const currentEntry = state.find((e) => e.id === id);
-    
+    const shotsKeys = keys(shots || []);
+
     const updateItem = (path, value) => {
         setItems(setProperties(items, path, value)); 
         setShots(items.shots)
@@ -23,7 +24,7 @@ const EditItemScreen = ({navigation, route}) => {
     const handleShotsUpdate = () => setShots(items.shots);
 
     const textInputObject = (obj, path, onChangeText, placeholder, style) => 
-    <TextInput 
+     <TextInput 
         value={String(get(obj, path))} 
         onChangeText={onChangeText || (val => updateItem(path, val))}
         style={style} 
@@ -32,9 +33,12 @@ const EditItemScreen = ({navigation, route}) => {
 
     const textInput = (path, onChangeText, placeholder, style) => textInputObject(items, path, onChangeText, placeholder, style); 
 
+    const saveStateOnPress = () => update(currentEntry.id, items, () => navigation.pop());
+
     return (
         <View style={styles.editScreenContainer}>
             <ScrollView style={styles.scrollViewContainer}>
+                <Text style={styles.textLabel}>: {items.teamA.player1.name}</Text>
                 <Text style={styles.textLabel}>items id: {items?.id}</Text>
                 {image && <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} /> }
                 <Text style={styles.textLabel}>Competition Name:</Text>
@@ -52,13 +56,15 @@ const EditItemScreen = ({navigation, route}) => {
                     {['A','B'].map(team => 
                         <View key={team}> 
                         {[1,2,3,4].map(num => 
-                            textInput(`team${team}.player${num}.name`) 
+                            <View key={num}>
+                                {textInput(`team${team}.player${num}.name`)} 
+                            </View>
                         )}
                         </View>
                     )}
                 </View>
                 <Text style={styles.textLabel}>EndNo | TeamName | Score: </Text>
-                {keys(shots).map(key => 
+                {shotsKeys?.map(key => 
                     <EditEndScreen 
                         key={key} 
                         keyy={key} 
@@ -75,7 +81,6 @@ const EditItemScreen = ({navigation, route}) => {
             <Button title='Save Edit' 
                 style={styles.button}
                 onPress={() => {
-                    // update(currentEntry.id, items, () => navigation.pop());
                     onEditShot(items);
                     navigation.pop();
             }} />

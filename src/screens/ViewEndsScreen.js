@@ -9,9 +9,8 @@ const ViewEndsScreen = ({navigation, shots}) => {
             <View style={styles.itemContainer}>
                 <Text style={''}>Ends:</Text> 
                 {keys(shots)?.map(key => 
-                    <View>
+                    <View key={key}>
                         <ViewEndScreen 
-                            key={key}
                             navigation={navigation}
                             end={shots[key]}
                             endNumber={parseInt(key)+1}

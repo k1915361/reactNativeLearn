@@ -11,7 +11,7 @@ const ListViewScreen = ({navigation, route}) => {
     const { id, competitionName, rinkNumber, teamA, teamB } = item;
     let { shots } = item;
     shots = shots || [];
-    // const [shots, setShots] = useState(item.shots || []);
+    const [shotss, setShots] = useState(item.shots || []);
     const date = new Date(item.date).toUTCString();
     const shotsKeys = keys(shots);
     const lastShotsKey = shotsKeys.length === 0 ? 0 : parseInt(shotsKeys[shotsKeys.length - 1])+1;
@@ -20,19 +20,14 @@ const ListViewScreen = ({navigation, route}) => {
 
     const getLastKey = () => shotsKeys.length === 0 ? 0 : parseInt(shotsKeys[shotsKeys.length - 1])+1; 
 
-    const getLastKeyV2 = () => Number.isNaN(getLastKey()) ? 0 : parseInt(getLastKey()); 
-
     const handleAddShot = (shot) => {
         const updatedShots = {...shots, [getLastKey()]: {...shot}};
         const updatedItems = {...item, shots: {...updatedShots || {}}};
-        handleUpdate({...updatedItems}); 
-        // setShots(updatedShots);     
+        handleUpdate({...updatedItems});
         setItem(updatedItems);
     };
     
     const handleEditShot = (value) => {
-        // const updatedShots = {...shots, value};
-        // const updatedItems = {...item, shots: {...updatedShots || {}}};
         const updatedItems = value;
         handleUpdate(updatedItems); 
         setItem(updatedItems);
@@ -41,6 +36,7 @@ const ListViewScreen = ({navigation, route}) => {
     const teamScores = (team = 'teamA') => keys(shots)?.map(key => shots[key].team === team && shots[key].shot);
 
     const getTotalScoreTeamA = () => getSum(teamScores('teamA'));
+
     const getTotalScoreTeamB = () => getSum(teamScores('teamB'));
 
     const getSum = (obj) => obj?.reduce((acc, val) => acc + val, 0);
@@ -48,9 +44,19 @@ const ListViewScreen = ({navigation, route}) => {
     const getTeamAPlayer = (i) => get(teamA, `player${i}`);
     const getTeamBPlayer = (i) => get(teamB, `player${i}`);
 
+    const addShotNavigation = () => navigation.navigate('AddShot', {
+        item: item,
+        onAddShot: handleAddShot,
+    });
+    
+    const editShotNavigation = () => navigation.navigate('EditItem', {
+        navigation: navigation,
+        items: item,
+        onEditShot: handleEditShot,
+    });
+
     return (
         <View style={styles.itemContainer}>
-            <Text style={''}>Card ID: {id} </Text>
             <Text style={''}>Competition:  
                 <Text style={styles.informationText}> {competitionName} </Text>
             </Text>
@@ -70,26 +76,18 @@ const ListViewScreen = ({navigation, route}) => {
                     playerB={getTeamBPlayer(i).name} 
                 />
             })}
-            <ViewEndsScreen shots={item.shots} navigation={navigation}/>
+            <ViewEndsScreen shots={item.shots || []} navigation={navigation}/>
             <Text style={''}>Total: <Text style={styles.totalText}>{getTotalScoreTeamA()}:{getTotalScoreTeamB()}</Text> </Text>
             <Text style={''}></Text>
             <Pressable 
-                onPress={() => navigation.navigate('AddShot', {
-                    item: item,
-                    onAddShot: (shot) => handleAddShot(shot),
-                    navigateListItem: navigateListItem, 
-            })}>
+                onPress={ addShotNavigation }>
                 <Text style={styles.button}>
                     <Text style={styles.titleText}> Add Shot </Text>
                     <MaterialIcons name='add' size={24} color='black' />  
                 </Text>
             </Pressable>
             <Pressable 
-                onPress={() => navigation.navigate('EditItem', {
-                    navigation: navigation,
-                    items: item,
-                    onEditShot: (val) => handleEditShot(val),
-            })}>
+                onPress={editShotNavigation}>
                 <Text style={styles.button}>
                     <Text style={styles.editText}> Edit Items </Text>
                     <MaterialIcons name='edit' size={24} color='black' />  
