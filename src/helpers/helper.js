@@ -45,6 +45,21 @@ export const pickImage = async () => {
     }    
 };
 
+export const typeOfNaN = (x) => {
+    if (Number.isNaN(x)) {
+      return 'Number NaN';
+    }
+    if (isNaN(x)) {
+      return 'NaN';
+    }
+}
+
+export const int = (str) => parseInt(str);
+
+export const str = (val) => val+'';
+
+export const bool = (val) => !!val;
+
 export const updateObjPropExperiment = (obj, path, val) =>{     
     path = path.split('.');
     return obj[path[0]][path[1]][path[2]] = val;
@@ -54,5 +69,3 @@ export const accessNestedObjByStringExperiment = (obj, str) =>  {
     str = str.split('.');
     return obj[str[0]][str[1]][str[2]];
 };
-
-//{head, tail, get, textInput}

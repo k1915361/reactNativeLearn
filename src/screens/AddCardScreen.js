@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Button, StyleSheet, Text, View, TextInput } from "react-native";
 import ItemContext from '../contexts/ItemContext';
 
-const testCard = { competitionName: 'aComp', rinkNumber: 11, date: new Date(), teamA: { name: 'US', player1: { name: 'Eugene',},  player2: { name: 'Warren',},  player3: { name: 'Bill',},  player4: { name: 'Will',},  }, teamB: {name: 'China',player1: { name: 'Buffet',},  player2: { name: 'Gates',},  player3: { name: 'Smith',},  player4: { name: 'John',},} }
+const testCard = { competitionName: 'Aaa', rinkNumber: 11, date: new Date(), teamA: { name: 'US', player1: { name: 'Eugene',},  player2: { name: 'Warren',},  player3: { name: 'Bill',},  player4: { name: 'Will',},  }, teamB: {name: 'China',player1: { name: 'Buffet',},  player2: { name: 'Gates',},  player3: { name: 'Smith',},  player4: { name: 'John',},} }
 
 const AddCardScreen = ({navigation, route}) => {
     const {create} = useContext(ItemContext);

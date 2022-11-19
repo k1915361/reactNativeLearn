@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Pressable, Button } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import ListPlayerScreen from './ListPlayerScreen';
-import ItemContext  from '../contexts/ItemContext'; 
+import ItemContext  from '../../contexts/ItemContext'; 
 
 const ListViewScreen = ({navigation, route}) => {
     const { state } = useContext(ItemContext);

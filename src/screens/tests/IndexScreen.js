@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ScrollView, Image, StatusBar  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ListItem from '../components/ListItem';
-import NavButton from '../components/NavButton';
+import ListItem from '../../components/ListItem';
+import NavButton from '../../components/NavButton';
 
 const IndexScreen = ({ navigation }) => {
     const assetsDir = '../../assets/';
@@ -33,6 +33,14 @@ const IndexScreen = ({ navigation }) => {
     const filteredArray = myArray.filter(item => item > 16);
     const findArray = myArray2.find(item => item.id === 2);
     let myObject = myArray2.find(e => e.id === 2);
+
+    const pressableExample = () => 
+     <Pressable onPress={() => navigation.navigate('AddPlayer', {callback: addNewPlayer})}>
+        <Text style={styles.font16Bold}>
+            <MaterialIcons name='add' size={24} color='black' />
+            Add Player
+        </Text>  
+    </Pressable>
 
     return (
     <SafeAreaView style={styles.container}>

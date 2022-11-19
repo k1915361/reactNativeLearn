@@ -8,7 +8,7 @@ import ListItemScreen from './src/screens/ListItemScreen';
 import ViewItemScreen from './src/screens/ViewItemScreen';
 import EditItemScreen from './src/screens/EditItemScreen';
 import AddPlayerScreen from './src/screens/AddPlayerScreen';
-import ListPlayerScreen from './src/screens/ListPlayerScreen';
+import ViewEndRowPlayersScreen from './src/screens/ViewEndRowPlayersScreen';
 import { ItemProvider } from './src/contexts/ItemContext';
 import CameraScreen from './src/screens/CameraScreen';
 import CameraPhotoScreen from './src/screens/CameraPhotoScreen';
@@ -85,7 +85,7 @@ const App = () => {
                 />
                 <Stack.Screen 
                     name="ListPlayer"
-                    component={ListPlayerScreen}
+                    component={ViewEndRowPlayersScreen}
                     options={{ title: 'Players' }}
                 />
                 <Stack.Screen 

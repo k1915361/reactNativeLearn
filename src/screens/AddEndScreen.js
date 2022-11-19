@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Button, Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import CameraScreen from "./CameraScreen";
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { renderObj } from "../helpers/helper";
 
 const AddShotScreen = ({navigation, route}) => {
-    const {teamAname, teamBname, onAddShot } = route.params;    
+    const { onAddShot, navigateListItem, item } = route.params;    
+    const {teamA, teamB} = item;
+    const teamAname = teamA.name;
+    const teamBname = teamB.name;
     const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
     const [image, setImage] = useState('');
     const [shotA, setShotA] = useState(0);
@@ -36,9 +38,11 @@ const AddShotScreen = ({navigation, route}) => {
     
     const onSetImage = (uri) => setImage(uri);
     
+    const renderImageUri = image && renderObj(image.substring(0,300));
+
     return (
         <View style={styles.container} >
-            <Text style={styles.textLabel}>getTeamName</Text>
+            <Text style={styles.textLabel}></Text>
                 <Pressable 
                     onPress={() => navigation.navigate('Camera', {
                         navigation: navigation,
@@ -56,7 +60,6 @@ const AddShotScreen = ({navigation, route}) => {
             <Text style={styles.textLabel}></Text>
             <Button title="Pick an image" onPress={pickImage} />
             {image && <Image style={styles.imageStyle2} source={{ uri: image }} />}
-            {image && renderObj(image.substring(0,300))}
             <Text style={styles.textLabel}></Text>
             <Text style={styles.textLabel}>Enter your shot:</Text>
             <View style={styles.textInputContainer}>
@@ -80,7 +83,7 @@ const AddShotScreen = ({navigation, route}) => {
                 disabled={Number(shotA) === 0 && Number(shotB) === 0 && true}
                 onPress={() => {
                     onAddShot( {team: getTeam(), shot: parseInt(shotA || shotB), image: image});
-                    navigation.popToTop();
+                    navigation.pop();
             }} />
         </View>
     )

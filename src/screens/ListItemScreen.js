@@ -1,66 +1,83 @@
 import { useState } from "react";
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { jsnstringify, keys } from "../helpers/helper";
+import { get, int, jsnstringify, keys, typeOfNaN } from "../helpers/helper";
 import ViewEndsScreen from "./ViewEndsScreen";
+import ViewEndRowPlayersScreen from "./ViewEndRowPlayersScreen";
 
 const ListViewScreen = ({navigation, route}) => {
-    const { id, competitionName, rinkNumber, teamA, teamB, date, handleUpdate, shots } = route.params;
-
-    const getName = (team, player) => team?.[player]?.name;
+    const { handleUpdate, navigateListItem} = route.params;
+    const [item, setItem] = useState(route.params.item || []);
+    const { id, competitionName, rinkNumber, teamA, teamB } = item;
+    let { shots } = item;
+    shots = shots || [];
+    // const [shots, setShots] = useState(item.shots || []);
+    const date = new Date(item.date).toUTCString();
+    const shotsKeys = keys(shots);
+    const lastShotsKey = shotsKeys.length === 0 ? 0 : parseInt(shotsKeys[shotsKeys.length - 1])+1;
     
+    const getShotsKeys = () => keys(shots);
+
+    const getLastKey = () => shotsKeys.length === 0 ? 0 : parseInt(shotsKeys[shotsKeys.length - 1])+1; 
+
+    const getLastKeyV2 = () => Number.isNaN(getLastKey()) ? 0 : parseInt(getLastKey()); 
+
     const handleAddShot = (shot) => {
-        const newShots = {...shots, [keys(shots).length+1]: {...shot}};
-        handleUpdate({...route.params, shots: {...newShots || {}}});            
+        const updatedShots = {...shots, [getLastKey()]: {...shot}};
+        const updatedItems = {...item, shots: {...updatedShots || {}}};
+        handleUpdate({...updatedItems}); 
+        // setShots(updatedShots);     
+        setItem(updatedItems);
     };
     
     const handleEditShot = (value) => {
-        const newShots = {...shots, value};
-        handleUpdate({...route.params, shots: {...newShots || {}}});            
+        // const updatedShots = {...shots, value};
+        // const updatedItems = {...item, shots: {...updatedShots || {}}};
+        const updatedItems = value;
+        handleUpdate(updatedItems); 
+        setItem(updatedItems);
     };
 
-    const playerRowRenderer = (id) => <Text style={styles.informationText}>
-        {getName(teamA, (`player${id}`))} | {id} | {getName(teamB, (`player${id}`))}
-    </Text>; 
+    const teamScores = (team = 'teamA') => keys(shots)?.map(key => shots[key].team === team && shots[key].shot);
 
-    const getImageRenderer = (image) => <Image style={styles.thumbnailStyle} resizeMode='repeat' source={{ uri:image }} />
+    const getTotalScoreTeamA = () => getSum(teamScores('teamA'));
+    const getTotalScoreTeamB = () => getSum(teamScores('teamB'));
 
-    const getShotsTotal = () => {
-        let totalA = 0, totalB = 0;
-        keys(shots).map(key => {
-            shots[key].team === 'teamA' ? 
-                totalA += parseInt(shots[key].shot) : 
-                totalB += parseInt(shots[key].shot);
-        });
-        return {totalA, totalB};
-    };
+    const getSum = (obj) => obj?.reduce((acc, val) => acc + val, 0);
 
-    const getSum = (obj) => obj.reduce((acc, val) => acc + val, 0);
-
-    const {totalA, totalB} = getShotsTotal();
+    const getTeamAPlayer = (i) => get(teamA, `player${i}`);
+    const getTeamBPlayer = (i) => get(teamB, `player${i}`);
 
     return (
         <View style={styles.itemContainer}>
+            <Text style={''}>Card ID: {id} </Text>
             <Text style={''}>Competition:  
                 <Text style={styles.informationText}> {competitionName} </Text>
             </Text>
-            <Text style={styles.dateText}>
-                Date: {new Date(date).toLocaleDateString()} 
+            <Text style={styles.dateText}>Date: 
+                <Text style={styles.informationText}> {new Date(date).toLocaleDateString()}</Text>
             </Text>
             <Text style={''}>
                 Rink No: <Text style={styles.informationText}>{rinkNumber} </Text>
             </Text>
             <Text style={styles.informationText}>
                 {teamA?.name} vs {teamB?.name}</Text>
-            {[1,2,3,4].map(i => playerRowRenderer(i))}
-            <ViewEndsScreen shots={shots} navigation={navigation}/>
-            <Text style={''}>Total: <Text style={styles.totalText}>{totalA}:{totalB}</Text> </Text>
+            {[1,2,3,4].map(i => {
+                return <ViewEndRowPlayersScreen 
+                    key={i}
+                    playerNo={i} 
+                    playerA={getTeamAPlayer(i).name} 
+                    playerB={getTeamBPlayer(i).name} 
+                />
+            })}
+            <ViewEndsScreen shots={item.shots} navigation={navigation}/>
+            <Text style={''}>Total: <Text style={styles.totalText}>{getTotalScoreTeamA()}:{getTotalScoreTeamB()}</Text> </Text>
             <Text style={''}></Text>
             <Pressable 
                 onPress={() => navigation.navigate('AddShot', {
-                    teamAname: teamA?.name,
-                    teamBname: teamB?.name,
+                    item: item,
                     onAddShot: (shot) => handleAddShot(shot),
+                    navigateListItem: navigateListItem, 
             })}>
                 <Text style={styles.button}>
                     <Text style={styles.titleText}> Add Shot </Text>
@@ -70,7 +87,7 @@ const ListViewScreen = ({navigation, route}) => {
             <Pressable 
                 onPress={() => navigation.navigate('EditItem', {
                     navigation: navigation,
-                    items: {...route.params},
+                    items: item,
                     onEditShot: (val) => handleEditShot(val),
             })}>
                 <Text style={styles.button}>

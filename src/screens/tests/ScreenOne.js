@@ -1,6 +1,6 @@
 import { View, Text, Button } from 'react-native';
-import NavButton from '../components/NavButton';
-import ChildrenExample from '../components/ChildrenExample';
+import NavButton from '../../components/NavButton';
+import ChildrenExample from '../../components/ChildrenExample';
 
 const ScreenOne = ({ navigation }) => {
     return (

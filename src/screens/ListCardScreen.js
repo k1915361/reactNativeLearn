@@ -25,10 +25,18 @@ const ListCardScreen = ({navigation}) => {
         update(card.id, card);
     }
 
-    const testRender = () => <Text>Test: {state[0]?.id} {state[0]?.teamA?.player1?.name} {state[0]?.shots[0]?.shot}</Text>;
+    const testRender = () => <Text>Test: {state[0]?.id} {state[0]?.teamA?.player1?.name} {state[0]?.shots?.[0]?.shot} </Text>;
+
+    const navigateListItem = (item) => navigation.navigate('ListItem', {
+            key: item.id,
+            item: item,
+            handleUpdate: (id, title, content, date) => handleUpdate(id, title, content, date),
+        }
+    );
 
     return (
         <View>
+            {testRender()}
             <Pressable onPress={() => navigation.navigate('SearchApi')} 
                 style={styles.viewAllCardsButton}
                 >
@@ -41,17 +49,7 @@ const ListCardScreen = ({navigation}) => {
                 keyExtractor={(e) => e.id}
                 renderItem={({item}) => {
                     return(
-                        <Pressable onPress={() => navigation.navigate('ListItem', {
-                            key: item.id,
-                            id: item.id,
-                            competitionName: item.competitionName,
-                            rinkNumber: item.rinkNumber,
-                            teamA: item.teamA,
-                            teamB: item.teamB,
-                            shots: item.shots,
-                            date: new Date(item.date).toUTCString(),
-                            handleUpdate: (id, title, content, date) => handleUpdate(id, title, content, date),
-                        })}>
+                        <Pressable onPress={() => navigateListItem(item)}>
                             <View style={styles.itemContainer}>
                                 <View style={styles.dateContainer}>
                                     <Text style={styles.dateText}>
