@@ -55,9 +55,7 @@ const AddCardScreen = ({navigation, route}) => {
                 {getPlayerTextInput('teamB', 'player2')}
                 {getPlayerTextInput('teamB', 'player3')}
                 {getPlayerTextInput('teamB', 'player4')}
-            </View>
-            <Text>{JSON.stringify(card)} </Text>
-            
+            </View>            
             <Button title='Create Card' onPress={() => {
                 create(card.competitionName, card, () => navigation.pop());
             }} />
