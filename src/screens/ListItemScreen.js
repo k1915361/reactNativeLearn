@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { get, int, jsnstringify, keys, typeOfNaN } from "../helpers/helper";
 import ViewEndsScreen from "./ViewEndsScreen";
 import ViewEndRowPlayersScreen from "./ViewEndRowPlayersScreen";
+import ItemContext from "../contexts/ItemContext";
 
 const ListViewScreen = ({navigation, route}) => {
     const { handleUpdate, navigateListItem} = route.params;
     const [item, setItem] = useState(route.params.item || []);
     const { id, competitionName, rinkNumber, teamA, teamB } = item;
+    
+    const {state} = useContext(ItemContext);
+    const currentEntry = state.find((e) => e.id === id);
+    const {id: idd, competitionName:competitionNamee, rinkNumber:rinkNumberr, teamA:teamAa, teamB: teamBb} = currentEntry;
+    const AlternativeWayToDynamicallyUpdateTheItem = currentEntry;
+    console.log(AlternativeWayToDynamicallyUpdateTheItem);
+    
     let { shots } = item;
     shots = shots || [];
     const [shotss, setShots] = useState(item.shots || []);
