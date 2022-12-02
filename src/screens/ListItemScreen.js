@@ -9,13 +9,14 @@ import ItemContext from "../contexts/ItemContext";
 const ListViewScreen = ({navigation, route}) => {
     const { handleUpdate, navigateListItem} = route.params;
     const [item, setItem] = useState(route.params.item || []);
-    const { id, competitionName, rinkNumber, teamA, teamB } = item;
+    // const { id, competitionName, rinkNumber, teamA, teamB } = item;
     
     const {state} = useContext(ItemContext);
-    const currentEntry = state.find((e) => e.id === id);
-    const {id: idd, competitionName:competitionNamee, rinkNumber:rinkNumberr, teamA:teamAa, teamB: teamBb} = currentEntry;
-    const AlternativeWayToDynamicallyUpdateTheItem = currentEntry;
-    console.log(AlternativeWayToDynamicallyUpdateTheItem);
+    const currentEntry = state.find((e) => e.id === route.params.item.id);
+    // const {id: idd, competitionName:competitionNamee, rinkNumber:rinkNumberr, teamA:teamAa, teamB: teamBb} = currentEntry;
+    const { id, competitionName, rinkNumber, teamA, teamB } = currentEntry;
+    const Alternative_Way_To_Dynamically_Update_The_Item_On_Screen = currentEntry;
+    console.log(Alternative_Way_To_Dynamically_Update_The_Item_On_Screen);
     
     let { shots } = item;
     shots = shots || [];
@@ -41,7 +42,7 @@ const ListViewScreen = ({navigation, route}) => {
         setItem(updatedItems);
     };
 
-    const teamScores = (team = 'teamA') => keys(shots)?.map(key => shots[key].team === team && shots[key].shot);
+    const teamScores = (team = 'teamA') => keys(shots)?.map(key => shots[key].team === team && parseInt(shots[key].shot));
 
     const getTotalScoreTeamA = () => getSum(teamScores('teamA'));
 
